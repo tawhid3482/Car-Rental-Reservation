@@ -1,0 +1,20 @@
+npm create vite
+name the project
+.....
+install tailwind, redux and others,
+install react-router-dom
+design file structure
+src/
+├── components/           👉 Navbar, Footer ইত্যাদি
+├── layouts/              👉 MainLayout (যেখানে navbar + footer থাকবে)
+├── pages/                👉 সব পেজ ফাইল
+├── routes/               👉 AppRouter.tsx (রাউট কনফিগারেশন)
+├── redux/                👉 Redux Store এবং Slice গুলো
+└── App.tsx   
+
+set Mainlayout.tsx file
+
+then set router.tsx or appRouters.
+then render main.tsx 
+then set a error page component and set it approuter errorElement
+ 
