@@ -1,14 +1,19 @@
-import car from "../../assets/images/banner.png"
+// import car from "../../assets/images/banner.png";
 
 const Hero = () => {
   return (
-    <div className="relative  h-screen w-full">
+    <div
+      style={{
+        backgroundImage: `url('/src/assets/images/banner.png')`, // or use import + inline
+      }}
+      className="relative bg-cover bg-center h-screen w-full  bg-fixed"
+    >
       {/* Background Image */}
-      <img
+      {/* <img
         src={car}
         alt="Car Banner"
         className="w-full h-full object-cover"
-      />
+      /> */}
 
       {/* Overlay */}
       <div className="absolute inset-0  bg-opacity-80 backdrop-blur-xs"></div>
@@ -22,7 +27,8 @@ const Hero = () => {
         </h1>
 
         <p className="text-gray-200 text-base md:text-lg max-w-xl mb-6">
-          Discover a variety of premium cars for your next adventure. Reliable, fast, and always in style.
+          Discover a variety of premium cars for your next adventure. Reliable,
+          fast, and always in style.
         </p>
 
         <button className="bg-[#3DEEB7] hover:bg-[#3DEEB7] text-[#A20023] font-semibold px-6 py-3 rounded-lg text-sm shadow-lg transition-all duration-300">
