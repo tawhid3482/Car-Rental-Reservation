@@ -1,3 +1,4 @@
+import BusinessInfo from "./Business/BusinessInfo";
 import Cars from "./Cars/Cars";
 import FAQSection from "./FAQ/FAQ";
 import Features from "./Features/Features";
@@ -13,6 +14,7 @@ const Home = () => {
       <Features />
       <Pickup />
       <News />
+      <BusinessInfo />
       <FAQSection></FAQSection>
     </div>
   );
