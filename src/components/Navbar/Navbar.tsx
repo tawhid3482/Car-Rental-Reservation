@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { FaShoppingCart } from "react-icons/fa";
 import { useState } from "react";
 import car from "../../assets/images/Car.png";
@@ -7,42 +7,54 @@ const Navbar = () => {
   const user = null;
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const navLinks = (
+  const navOptions = (
     <>
       <li>
-        <Link
-          className="hover:bg-[#A20023] p-2 rounded-lg hover:text-white"
+        <NavLink
+          className={({ isActive }) =>
+            `p-2 rounded-lg ${
+              isActive
+                ? "bg-[#A20023] text-white"
+                : "hover:bg-[#A20023] hover:text-white"
+            }`
+          }
           to="/"
         >
           Home
-        </Link>
+        </NavLink>
       </li>
       <li>
-        <Link
-          className="hover:bg-[#A20023] p-2 rounded-lg hover:text-white"
+        <NavLink
+          className={({ isActive }) =>
+            `p-2 rounded-lg ${isActive ? "bg-[#A20023] text-white" : "hover:bg-[#A20023] hover:text-white"}`
+          }
           to="/about"
         >
           About us
-        </Link>
+        </NavLink>
       </li>
       <li>
-        <Link
-          className="hover:bg-[#A20023] p-2 rounded-lg hover:text-white"
+        <NavLink
+           className={({ isActive }) =>
+            `p-2 rounded-lg ${isActive ? "bg-[#A20023] text-white" : "hover:bg-[#A20023] hover:text-white"}`
+          }
           to="/booking"
         >
           Booking
-        </Link>
+        </NavLink>
       </li>
       <li>
-        <Link
-          className="hover:bg-[#A20023] p-2 rounded-lg hover:text-white"
+        <NavLink
+          className={({ isActive }) =>
+            `p-2 rounded-lg ${isActive ? "bg-[#A20023] text-white" : "hover:bg-[#A20023] hover:text-white"}`
+          }
           to="/contact"
         >
           Contact
-        </Link>
+        </NavLink>
       </li>
       <li>
-        <Link
+        <NavLink
           to="/dashboard/cart"
           className="relative inline-flex items-center hover:bg-[#A20023] p-2 rounded-lg hover:text-white"
         >
@@ -51,7 +63,7 @@ const Navbar = () => {
           <span className="absolute -top-2 -right-3 bg-red-600 text-white rounded-full px-1.5 text-xs">
             {/* {cart.length} */}
           </span>
-        </Link>
+        </NavLink>
       </li>
     </>
   );
@@ -60,13 +72,13 @@ const Navbar = () => {
     <nav className="fixed w-full z-50 text-black backdrop-blur-md bg-white/10 shadow-sm">
       <div className="max-w-screen-xl mx-auto px-4 py-3 flex justify-between items-center">
         {/* Logo */}
-        <Link to="/" className="text-2xl font-bold tracking-wide">
+        <NavLink to="/" className="text-2xl font-bold tracking-wide">
           <img src={car} className="w-20 h-10" alt="" />
-        </Link>
+        </NavLink>
 
         {/* Desktop Menu */}
         <ul className="hidden lg:flex space-x-6 text-sm items-center ">
-          {navLinks}
+          {navOptions}
         </ul>
 
         {/* Right Button (e.g., Sign-in) */}
@@ -77,7 +89,7 @@ const Navbar = () => {
             </button>
           ) : (
             <button className="bg-[#A20023] text-white px-3 p-1 rounded-lg hover:bg-white hover:text-[#A20023] border border-[#A20023]">
-              <Link to="/login">Login</Link>
+              <NavLink to="/login">Login</NavLink>
             </button>
           )}
         </div>
@@ -118,7 +130,7 @@ const Navbar = () => {
       {/* Mobile Menu Dropdown */}
       {isMenuOpen && (
         <ul className="lg:hidden flex flex-col gap-4 px-6 pb-4 text-sm bg-black/80 backdrop-blur-md text-white p-2 hover:text-[#A20023]">
-          {navLinks}
+          {navOptions}
           <button className="bg-[#A20023] text-white p-2 rounded-lg hover:bg-white hover:text-[#A20023] border border-[#A20023]">
             Sign In
           </button>

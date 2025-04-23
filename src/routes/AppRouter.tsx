@@ -4,6 +4,7 @@ import ErrorPage from "../pages/Error/Error";
 import Home from "../pages/Home";
 import About from "../pages/About/About";
 import Contact from "../pages/Contact/Contact";
+import Booking from "../pages/Booking/Booking";
 
 const AppRouter = createBrowserRouter([
   {
@@ -14,6 +15,7 @@ const AppRouter = createBrowserRouter([
       { path: "/", element: <Home /> },
       { path: "/about", element: <About /> },
       { path: "/contact", element: <Contact /> },
+      { path: "/booking", element: <Booking /> },
       // { path: "/cars/:id", element: <CarDetails /> },
       // { path: "/reservation", element: <Reservation /> },
     ],
