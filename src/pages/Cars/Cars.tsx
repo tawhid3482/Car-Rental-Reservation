@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import CarCardSkeleton from "./CarCardSkeleton";
 import {
@@ -8,18 +8,25 @@ import {
   FaDoorOpen,
   FaCarSide,
 } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const Cars = () => {
-  const [cars, setCars] = useState<{ name: string }[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, ] = useState(false);
 
-  useEffect(() => {
-    setTimeout(() => {
-      // Simulate API fetch
-      setCars([{ name: "Ferrari" }, { name: "BMW" }, { name: "Lambo" }]);
-      setLoading(false);
-    }, 2000);
-  }, []);
+  const cars = [
+    {
+      id: 1,
+      type: "Car",
+      name: "Ferrari",
+      img: "https://wallpapercave.com/wp/wp3425558.jpg",
+      price: "250",
+      sit: 6,
+      bag: 3,
+      love: 25,
+      pickUpLocation: "Dhaka",
+      dropOffLocation: "Chittagong",
+    },
+  ];
 
   const [love, setLove] = useState(false);
 
@@ -78,24 +85,30 @@ const Cars = () => {
 
                   {/* Car Features */}
                   <div className="flex flex-wrap items-center gap-4 text-lg">
-                    <div className="flex items-center gap-1 text-[#28c76f]">
+                    <div className="flex items-center gap-1 text-[#3DEEB7]">
                       <FaUser />
-                      <span className="text-[#00194A] font-semibold">5</span>
+                      <span className="text-[#00194A] font-semibold">
+                        {car.sit}
+                      </span>
                     </div>
 
-                    <div className="flex items-center gap-1 text-[#28c76f]">
+                    <div className="flex items-center gap-1 text-[#3DEEB7]">
                       <FaSuitcaseRolling />
-                      <span className="text-[#00194A] font-semibold">2</span>
+                      <span className="text-[#00194A] font-semibold">
+                        {car.bag}
+                      </span>
                     </div>
 
-                    <div className="flex items-center gap-1 text-[#28c76f]">
+                    <div className="flex items-center gap-1 text-[#3DEEB7]">
                       <FaDoorOpen />
                       <span className="text-[#00194A] font-semibold">4</span>
                     </div>
 
-                    <div className="flex items-center gap-1 text-[#28c76f]">
+                    <div className="flex items-center gap-1 text-[#3DEEB7]">
                       <FaCarSide />
-                      <span className="text-[#00194A] font-bold">SUV</span>
+                      <span className="text-[#00194A] font-bold">
+                        {car.type}
+                      </span>
                     </div>
                   </div>
 
@@ -106,11 +119,13 @@ const Cars = () => {
                   <div className="flex justify-between items-center">
                     <div>
                       <p className="text-sm text-gray-500">Per hour rent</p>
-                      <p className="text-2xl font-bold">$250</p>
+                      <p className="text-2xl font-bold">${car.price}</p>
                     </div>
-                    <button className="bg-[#A20023] hover:bg-[#88001c] text-white px-4 py-2 rounded-xl transition duration-300">
-                      Rent Now
-                    </button>
+                    <Link to={`/cars/${car.id}`}>
+                      <button className="bg-[#A20023] hover:bg-[#88001c] text-white px-4 py-2 rounded-xl transition duration-300 cursor-pointer">
+                        Rent Now
+                      </button>
+                    </Link>
                   </div>
                 </div>
               </motion.div>

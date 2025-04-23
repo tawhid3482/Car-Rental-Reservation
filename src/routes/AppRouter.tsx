@@ -5,6 +5,7 @@ import Home from "../pages/Home";
 import About from "../pages/About/About";
 import Contact from "../pages/Contact/Contact";
 import Booking from "../pages/Booking/Booking";
+import CarDetails from "../pages/Cars/CarDetails";
 
 const AppRouter = createBrowserRouter([
   {
@@ -16,7 +17,7 @@ const AppRouter = createBrowserRouter([
       { path: "/about", element: <About /> },
       { path: "/contact", element: <Contact /> },
       { path: "/booking", element: <Booking /> },
-      // { path: "/cars/:id", element: <CarDetails /> },
+      { path: "/cars/:id", element: <CarDetails /> },
       // { path: "/reservation", element: <Reservation /> },
     ],
   },

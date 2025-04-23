@@ -1,5 +1,7 @@
 // import car from "../../assets/images/banner.png";
 
+import { NavLink } from "react-router-dom";
+
 const Hero = () => {
   return (
     <div
@@ -31,9 +33,11 @@ const Hero = () => {
           fast, and always in style.
         </p>
 
+        <NavLink to={'/booking'}>
         <button className="bg-[#3DEEB7] hover:bg-[#3DEEB7] text-[#A20023] font-semibold px-6 py-3 rounded-lg text-sm shadow-lg transition-all duration-300">
           Explore Cars
         </button>
+        </NavLink>
       </div>
     </div>
   );

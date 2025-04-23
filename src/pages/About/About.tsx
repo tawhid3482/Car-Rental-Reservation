@@ -59,7 +59,7 @@ const About = () => {
                 onClick={() => setSelected(tab.name)}
                 className={`px-4 sm:px-5 py-2 rounded-full text-sm font-semibold transition-all duration-200 ease-in-out cursor-pointer ${
                   selected === tab.name
-                    ? "bg-[#00C805] text-white shadow-lg"
+                    ? "bg-[#3DEEB7] text-white shadow-lg"
                     : "bg-white text-gray-700 border border-gray-300"
                 }`}
               >
