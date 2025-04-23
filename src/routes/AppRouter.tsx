@@ -6,6 +6,8 @@ import About from "../pages/About/About";
 import Contact from "../pages/Contact/Contact";
 import Booking from "../pages/Booking/Booking";
 import CarDetails from "../pages/Cars/CarDetails";
+import Login from "../pages/Login";
+import Register from "../pages/Register";
 
 const AppRouter = createBrowserRouter([
   {
@@ -21,8 +23,8 @@ const AppRouter = createBrowserRouter([
       // { path: "/reservation", element: <Reservation /> },
     ],
   },
-  //     { path: "/login", element: <Login /> },
-  //   { path: "/register", element: <Register /> },
+      { path: "/login", element: <Login /> },
+    { path: "/register", element: <Register /> },
 ]);
 
 export default AppRouter;
