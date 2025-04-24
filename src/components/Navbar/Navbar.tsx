@@ -110,7 +110,7 @@ const Navbar = () => {
               className="focus:outline-none "
             >
               <img
-                src={user?.image || "https://i.ibb.co/ZmFHZDM/user.png"}
+                src={user?.image || "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"}
                 alt="user"
                 className="w-10 h-10 rounded-full border border-gray-300 object-cover cursor-pointer"
               />
