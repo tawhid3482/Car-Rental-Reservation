@@ -19,13 +19,11 @@ const Cars = () => {
   const [updateCar] = useUpdateCarMutation();
   const cars = data?.data || [];
 
-  // localStorage থেকে lovedCars স্টেট লোড করা
   const [lovedCars, setLovedCars] = useState<Record<string, boolean>>(() => {
     const savedLovedCars = localStorage.getItem("lovedCars");
     return savedLovedCars ? JSON.parse(savedLovedCars) : {};
   });
 
-  // lovedCars স্টেট পরিবর্তিত হলে তা localStorage এ সেভ করা
   useEffect(() => {
     localStorage.setItem("lovedCars", JSON.stringify(lovedCars));
   }, [lovedCars]);
@@ -65,7 +63,7 @@ const Cars = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
         {isLoading
           ? [...Array(6)].map((_: any, i: any) => <CarCardSkeleton key={i} />)
-          : cars.map((car: TCar) => (
+          : cars?.slice(0,6)?.map((car: TCar) => (
               <motion.div
                 key={car._id}
                 className="w-full bg-[#f3eef0] rounded-2xl shadow-xl overflow-hidden p-2"
