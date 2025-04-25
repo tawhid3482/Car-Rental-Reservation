@@ -7,33 +7,13 @@ import {
 } from "react-icons/fa";
 import { useParams } from "react-router-dom";
 import { useState } from "react";
+import { useGetSingleCarQuery } from "../../redux/features/car/carApi";
 
 const CarDetails = () => {
   const { id } = useParams();
+  const { data, isLoading, isError } = useGetSingleCarQuery(id);
+  const car = data?.data;
 
-  const cars = [
-    {
-      id: "1",
-      type: "Car",
-      name: "Ferrari",
-      carImage: [
-        "https://images.pexels.com/photos/3729464/pexels-photo-3729464.jpeg",
-        "https://images.pexels.com/photos/358070/pexels-photo-358070.jpeg",
-        "https://images.pexels.com/photos/1149831/pexels-photo-1149831.jpeg",
-      ],
-      price: "250",
-      sit: 6,
-      bag: 3,
-      door: 4,
-      love: 25,
-      description:
-        "Experience the thrill of driving a Ferrari. Fast, luxurious, and unforgettable. Perfect for special occasions or just because.",
-      pickUpLocation: "Dhaka",
-      dropOffLocation: "Chittagong",
-    },
-  ];
-
-  const car = cars.find((c) => c.id === id);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const [formData, setFormData] = useState({
@@ -43,7 +23,9 @@ const CarDetails = () => {
     dropOffTime: "",
   });
 
-  if (!car) return <p className="text-center mt-12 text-xl">Car not found!</p>;
+  if (isLoading) return <p className="text-center mt-12 text-xl">Loading...</p>;
+  if (isError || !car)
+    return <p className="text-center mt-12 text-xl">Car not found!</p>;
 
   const handleChange = (e: any) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -63,13 +45,13 @@ const CarDetails = () => {
 
   const showPreviousImage = () => {
     setCurrentImageIndex((prevIndex) =>
-      prevIndex === 0 ? car.carImage.length - 1 : prevIndex - 1
+      prevIndex === 0 ? car.image.length - 1 : prevIndex - 1
     );
   };
 
   const showNextImage = () => {
     setCurrentImageIndex((prevIndex) =>
-      prevIndex === car.carImage.length - 1 ? 0 : prevIndex + 1
+      prevIndex === car.image.length - 1 ? 0 : prevIndex + 1
     );
   };
 
@@ -77,19 +59,14 @@ const CarDetails = () => {
     <div className="max-w-6xl mx-auto p-6 mt-10 space-y-10">
       {/* Car Image Slider */}
       <div className="flex justify-center gap-10 items-start">
-        {/* Car Image Slider */}
-        {/* Car Image Slider with Bottom Right Buttons and Thumbnails */}
         <div className="relative w-2/3">
-          {/* Main Image */}
           <div className="h-80 md:h-[400px] overflow-hidden rounded-xl shadow-md relative">
             <img
               key={currentImageIndex}
-              src={car.carImage[currentImageIndex]}
+              src={car.image[currentImageIndex]}
               alt={`Car ${car.name}`}
               className="w-full h-full object-cover rounded-xl transition-transform duration-700 ease-in-out transform"
             />
-
-            {/* Bottom Right Navigation Buttons */}
             <div className="absolute bottom-3 right-3 flex gap-3">
               <button
                 onClick={showPreviousImage}
@@ -108,7 +85,7 @@ const CarDetails = () => {
 
           {/* Thumbnails */}
           <div className="flex justify-center mt-4 gap-3">
-            {car.carImage.map((img, idx) => (
+            {car.image.map((img: string, idx: number) => (
               <img
                 key={idx}
                 src={img}
@@ -148,8 +125,58 @@ const CarDetails = () => {
           </div>
 
           <p className="text-gray-600">{car.description}</p>
-          <p className="text-2xl font-bold text-[#833d47]">
-            ${car.price} / per hour
+          <div className="bg-white rounded-xl shadow-md p-6 space-y-4 border border-gray-100">
+            <h3 className="text-2xl font-bold text-[#00194A]">Car Overview</h3>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div className="text-gray-700 font-medium">
+                <span className="text-gray-500">Color: </span>
+                <span
+                  className={`inline-block w-4 h-4 rounded-full ml-2 border`}
+                  style={{ backgroundColor: car.color }}
+                  title={car.color}
+                ></span>
+              </div>
+
+              <div className="text-gray-700 font-medium">
+                <span className="text-gray-500">Electric: </span>
+                <span
+                  className={`px-2 py-1 rounded-full text-sm font-semibold ${
+                    car.isElectric
+                      ? "bg-green-100 text-green-700"
+                      : "bg-red-100 text-red-700"
+                  }`}
+                >
+                  {car.isElectric ? "Yes" : "No"}
+                </span>
+              </div>
+
+              <div className="text-gray-700 font-medium">
+                <span className="text-gray-500">Status: </span>
+                <span
+                  className={`px-2 py-1 rounded-full text-sm font-semibold ${
+                    car.status === "available"
+                      ? "bg-green-100 text-green-700"
+                      : "bg-yellow-100 text-yellow-700"
+                  }`}
+                >
+                  {car.status}
+                </span>
+              </div>
+
+              <div className="text-gray-700 font-medium col-span-2">
+                <span className="text-gray-500">Features:</span>
+                <ul className="list-disc list-inside mt-2 space-y-1 text-sm text-gray-600">
+                  {car.features?.map((feature: string, index: number) => (
+                    <li key={index}>{feature}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <p className="text-2xl font-bold text-[#833d47]">Price:
+            ${car.pricePerHour} / per hour
           </p>
         </div>
       </div>

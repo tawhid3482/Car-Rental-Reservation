@@ -1,4 +1,5 @@
-import { useState } from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import CarCardSkeleton from "./CarCardSkeleton";
 import {
@@ -9,29 +10,43 @@ import {
   FaCarSide,
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { useGetAllCarsQuery, useUpdateCarMutation } from "../../redux/features/car/carApi";
+import { TCar } from "../../types/car";
+import toast from "react-hot-toast";
 
 const Cars = () => {
-  const [loading, ] = useState(false);
+  const { data, isLoading } = useGetAllCarsQuery('');
+  const [updateCar] = useUpdateCarMutation();
+  const cars = data?.data || [];
 
-  const cars = [
-    {
-      id: 1,
-      type: "Car",
-      name: "Ferrari",
-      img: "https://wallpapercave.com/wp/wp3425558.jpg",
-      price: "250",
-      sit: 6,
-      bag: 3,
-      love: 25,
-      pickUpLocation: "Dhaka",
-      dropOffLocation: "Chittagong",
-    },
-  ];
+  // localStorage থেকে lovedCars স্টেট লোড করা
+  const [lovedCars, setLovedCars] = useState<Record<string, boolean>>(() => {
+    const savedLovedCars = localStorage.getItem("lovedCars");
+    return savedLovedCars ? JSON.parse(savedLovedCars) : {};
+  });
 
-  const [love, setLove] = useState(false);
+  // lovedCars স্টেট পরিবর্তিত হলে তা localStorage এ সেভ করা
+  useEffect(() => {
+    localStorage.setItem("lovedCars", JSON.stringify(lovedCars));
+  }, [lovedCars]);
 
-  const handleToggle = () => {
-    setLove(!love);
+  const handleToggle = async (id: string, currentLove: number) => {
+    const isLoved = lovedCars[id];
+  
+    setLovedCars((prev) => {
+      const newLovedCars = { ...prev, [id]: !isLoved };
+      return newLovedCars;
+    });
+  
+    const newLoveCount = isLoved ? currentLove - 1 : currentLove + 1;
+  
+    try {
+      await updateCar({ id, data: { love: newLoveCount } }); 
+      toast.success("Love it");
+    } catch (error) {
+      console.error("Error updating love count:", error);
+      toast.error("Love count error");
+    }
   };
 
   return (
@@ -48,11 +63,11 @@ const Cars = () => {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-        {loading
-          ? [...Array(3)].map((_, i) => <CarCardSkeleton key={i} />)
-          : cars.map((car, i) => (
+        {isLoading
+          ? [...Array(6)].map((_: any, i: any) => <CarCardSkeleton key={i} />)
+          : cars.map((car: TCar) => (
               <motion.div
-                key={i}
+                key={car._id}
                 className="w-full bg-[#f3eef0] rounded-2xl shadow-xl overflow-hidden p-2"
                 initial={{ opacity: 0, x: -100 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -61,7 +76,7 @@ const Cars = () => {
                 viewport={{ once: true }}
               >
                 <motion.img
-                  src="https://wallpapercave.com/wp/wp3425558.jpg"
+                  src={car.image[0]}
                   alt={car.name}
                   className="w-full h-56 object-cover rounded-2xl border"
                   whileHover={{ scale: 1.05 }}
@@ -74,12 +89,12 @@ const Cars = () => {
                     <h3 className="text-xl font-semibold">{car.name}</h3>
                     <div className="flex items-center gap-2">
                       <FaHeart
-                        onClick={handleToggle}
+                        onClick={() => handleToggle(car._id, car.love)}
                         className={`cursor-pointer transition-all duration-300 ${
-                          love ? "text-red-600" : "text-gray-400"
+                          lovedCars[car._id] ? "text-red-600" : "text-gray-400"
                         }`}
                       />
-                      <span>{love ? 1 : 0}</span>
+                      <span>{car.love}</span>
                     </div>
                   </div>
 
@@ -101,7 +116,9 @@ const Cars = () => {
 
                     <div className="flex items-center gap-1 text-[#3DEEB7]">
                       <FaDoorOpen />
-                      <span className="text-[#00194A] font-semibold">4</span>
+                      <span className="text-[#00194A] font-semibold">
+                        {car.door}
+                      </span>
                     </div>
 
                     <div className="flex items-center gap-1 text-[#3DEEB7]">
@@ -119,9 +136,9 @@ const Cars = () => {
                   <div className="flex justify-between items-center">
                     <div>
                       <p className="text-sm text-gray-500">Per hour rent</p>
-                      <p className="text-2xl font-bold">${car.price}</p>
+                      <p className="text-2xl font-bold">${car.pricePerHour}</p>
                     </div>
-                    <Link to={`/cars/${car.id}`}>
+                    <Link to={`/cars/${car._id}`}>
                       <button className="bg-[#A20023] hover:bg-[#88001c] text-white px-4 py-2 rounded-xl transition duration-300 cursor-pointer">
                         Rent Now
                       </button>
