@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   FaCarSide,
@@ -8,19 +9,22 @@ import {
 import { useParams } from "react-router-dom";
 import { useState } from "react";
 import { useGetSingleCarQuery } from "../../redux/features/car/carApi";
+import { useAddToBookingMutation } from "../../redux/features/booking/booking";
+
+import toast from "react-hot-toast";
 
 const CarDetails = () => {
   const { id } = useParams();
+  // const user = useAppSelector(selectCurrentUser)
   const { data, isLoading, isError } = useGetSingleCarQuery(id);
   const car = data?.data;
+  const [addToBooking] = useAddToBookingMutation();
 
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const [formData, setFormData] = useState({
     pickUpDate: "",
-    dropOffDate: "",
     pickUpTime: "",
-    dropOffTime: "",
   });
 
   if (isLoading) return <p className="text-center mt-12 text-xl">Loading...</p>;
@@ -31,17 +35,28 @@ const CarDetails = () => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleBooking = (e: any) => {
+  const handleBooking = async (e: any) => {
     e.preventDefault();
-    console.log("Booking submitted:", { ...formData, car });
-    alert("Booking Submitted!");
+    const bookingData = {
+      date: formData.pickUpDate,
+      startTime: formData.pickUpTime,
+      carId: car._id,
+    };
+    console.log(bookingData);
+    try {
+      await addToBooking(bookingData).unwrap();
+      toast.success("Booking successful!");
+      // ✅ Clear form after successful booking
+      setFormData({
+        pickUpDate: "",
+        pickUpTime: "",
+      });
+    } catch (error) {
+      toast.error("Booking failed. Please try again.");
+    }
   };
 
-  const isFormComplete =
-    formData.pickUpDate &&
-    formData.dropOffDate &&
-    formData.pickUpTime &&
-    formData.dropOffTime;
+  const isFormComplete = formData.pickUpDate && formData.pickUpTime;
 
   const showPreviousImage = () => {
     setCurrentImageIndex((prevIndex) =>
@@ -175,8 +190,8 @@ const CarDetails = () => {
             </div>
           </div>
 
-          <p className="text-2xl font-bold text-[#833d47]">Price:
-            ${car.pricePerHour} / per hour
+          <p className="text-2xl font-bold text-[#833d47]">
+            Price: ${car.pricePerHour} / per hour
           </p>
         </div>
       </div>
@@ -193,36 +208,19 @@ const CarDetails = () => {
             <input
               type="date"
               name="pickUpDate"
+              value={formData.pickUpDate}
               onChange={handleChange}
               className="w-full px-3 py-2 border rounded"
               required
             />
           </div>
-          <div>
-            <label className="block mb-1 font-medium">Drop-Off Date</label>
-            <input
-              type="date"
-              name="dropOffDate"
-              onChange={handleChange}
-              className="w-full px-3 py-2 border rounded"
-              required
-            />
-          </div>
+
           <div>
             <label className="block mb-1 font-medium">Pick-Up Time</label>
             <input
               type="time"
               name="pickUpTime"
-              onChange={handleChange}
-              className="w-full px-3 py-2 border rounded"
-              required
-            />
-          </div>
-          <div>
-            <label className="block mb-1 font-medium">Drop-Off Time</label>
-            <input
-              type="time"
-              name="dropOffTime"
+              value={formData.pickUpTime}
               onChange={handleChange}
               className="w-full px-3 py-2 border rounded"
               required
@@ -232,7 +230,7 @@ const CarDetails = () => {
           <div className="md:col-span-2">
             <button
               type="submit"
-              className={`w-full py-3 rounded-xl text-white font-semibold text-lg transition-all ${
+              className={`w-full py-3 rounded-xl text-white font-semibold text-lg transition-all cursor-pointer ${
                 isFormComplete
                   ? "bg-[#833d47] hover:bg-[#6d303b]"
                   : "bg-gray-400 cursor-not-allowed"

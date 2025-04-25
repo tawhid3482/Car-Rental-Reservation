@@ -18,7 +18,7 @@ const baseQuery = fetchBaseQuery({
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootState).auth?.token;
     if (token) {
-      headers.set("Authorization", `${token}`);
+      headers.set("authorization", `Bearer ${token}`);
     }
     return headers;
   },
@@ -63,7 +63,7 @@ const baseQueryWithRefreshToken: BaseQueryFn<
 export const baseApi = createApi({
   reducerPath: "baseApi",
   baseQuery: baseQueryWithRefreshToken,
-  tagTypes: ["users","cars"],
+  tagTypes: ["users","cars","booking"],
   endpoints: () => ({}),
 });
 
