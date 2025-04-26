@@ -1,6 +1,5 @@
 
 import { NavLink } from "react-router-dom";
-import { FaShoppingCart } from "react-icons/fa";
 import { useState } from "react";
 import car from "../../assets/images/Car.png";
 import { useAppDispatch, useAppSelector } from "../../redux/features/hooks";
@@ -76,18 +75,7 @@ const Navbar = () => {
           Contact
         </NavLink>
       </li>
-      <li>
-        <NavLink
-          to="/dashboard/cart"
-          className="relative inline-flex items-center hover:bg-[#A20023] p-2 rounded-lg hover:text-white"
-        >
-          <FaShoppingCart className="text-lg" />
-          <span className="ml-1 text-sm">Cart</span>
-          <span className="absolute -top-2 -right-3 bg-red-600 text-white rounded-full px-1.5 text-xs">
-            {/* {cart.length} */}
-          </span>
-        </NavLink>
-      </li>
+  
     </>
   );
 

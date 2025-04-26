@@ -8,6 +8,8 @@ import Booking from "../pages/Booking/Booking";
 import CarDetails from "../pages/Cars/CarDetails";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
+import Dashboard from "../pages/Dashboard/Dashboard";
+import UserProfile from "../pages/Dashboard/User/UserProfile";
 
 const AppRouter = createBrowserRouter([
   {
@@ -23,8 +25,15 @@ const AppRouter = createBrowserRouter([
       // { path: "/reservation", element: <Reservation /> },
     ],
   },
-      { path: "/login", element: <Login /> },
-    { path: "/register", element: <Register /> },
+  { path: "/login", element: <Login /> },
+  { path: "/register", element: <Register /> },
+
+  {
+    path: "/dashboard",
+    element: <Dashboard />,
+    errorElement: <ErrorPage />,
+    children: [{ path: "/dashboard/userProfile", element: <UserProfile /> }],
+  },
 ]);
 
 export default AppRouter;
