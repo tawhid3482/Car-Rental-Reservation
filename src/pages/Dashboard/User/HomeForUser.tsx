@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import toast from "react-hot-toast";
 import { motion } from "framer-motion";
-import { FaCalendarAlt, FaDollarSign, FaEnvelope, FaHourglassHalf } from "react-icons/fa";
+import { FaCar, FaCreditCard, FaCheckCircle, FaStar } from "react-icons/fa";
+import {  selectCurrentUser } from "../../../redux/features/auth/authSlice";
 import { useAppSelector } from "../../../redux/features/hooks";
-import { selectCurrentUser } from "../../../redux/features/auth/authSlice";
 
 const HomeForUser = () => {
   const user = useAppSelector(selectCurrentUser);
@@ -15,61 +15,107 @@ const HomeForUser = () => {
     });
   }, [user?.name]);
 
+   
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#fdfbfb] to-[#ebedee] py-12 px-4">
-      <p className="text-center text-4xl font-bold text-[#A20023] mb-10">
-        Welcome To Dashboard
-      </p>
-
-      <motion.div
-        initial={{ opacity: 0, y: 50 }}
+    <div className="p-6 space-y-6">
+      {/* Welcome Banner */}
+      <motion.div 
+        className="bg-gradient-to-r from-[#A20023] to-[#3DEEB7] text-white p-6 rounded-2xl shadow-xl flex items-center justify-between"
+        initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.2 }}
-        className="max-w-7xl mx-auto bg-white/30 backdrop-blur-md shadow-2xl rounded-3xl p-10 border border-white/40"
+        transition={{ duration: 0.5 }}
       >
-        <h2 className="text-3xl font-bold text-[#A20023] mb-2">
-          Dashboard Overview
-        </h2>
-        <p className="text-gray-700 mb-6">
-          Monitor and manage all your activities quickly and efficiently.
-        </p>
+        <div>
+          <h2 className="text-3xl font-bold mb-2">Welcome back, {user?.name || "User"}!</h2>
+          <p className="text-white/80">Ready for your next adventure?</p>
+        </div>
+        <img
+          src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+          alt="User Avatar"
+          className="w-16 h-16 rounded-full object-cover"
+        />
+      </motion.div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-8">
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            className="bg-white/40 backdrop-blur-lg border border-white/30 rounded-xl p-6 shadow-md text-center"
+      {/* Quick Stats */}
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+        {[
+          { title: "My Bookings", value: "5", icon: <FaCar className="text-[#A20023]" size={30} /> },
+          { title: "Pending Payments", value: "$120", icon: <FaCreditCard className="text-[#3DEEB7]" size={30} /> },
+          { title: "Completed Trips", value: "12", icon: <FaCheckCircle className="text-[#A20023]" size={30} /> },
+          { title: "Reviews Given", value: "8", icon: <FaStar className="text-[#3DEEB7]" size={30} /> },
+        ].map((stat, idx) => (
+          <motion.div 
+            key={idx}
+            className="bg-white p-5 rounded-2xl shadow hover:shadow-2xl transition-all flex items-center space-x-4"
+            whileHover={{ scale: 1.03 }}
           >
-            <FaCalendarAlt size={32} className="mx-auto text-[#A20023] mb-2" />
-            <h3 className="text-2xl font-bold">3</h3>
-            <p className="text-gray-600">Bookings</p>
+            <div>{stat.icon}</div>
+            <div>
+              <h4 className="text-gray-500 text-sm">{stat.title}</h4>
+              <p className="text-2xl font-bold mt-1">{stat.value}</p>
+            </div>
           </motion.div>
+        ))}
+      </div>
 
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            className="bg-white/40 backdrop-blur-lg border border-white/30 rounded-xl p-6 shadow-md text-center"
-          >
-            <FaDollarSign size={32} className="mx-auto text-green-600 mb-2" />
-            <h3 className="text-2xl font-bold">$120</h3>
-            <p className="text-gray-600">Total Spend</p>
-          </motion.div>
+      {/* Recent Activities */}
+      <motion.div 
+        className="bg-white p-6 rounded-2xl shadow"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.3 }}
+      >
+        <h4 className="text-lg font-bold text-[#A20023] mb-4">Recent Activities</h4>
+        <ul className="space-y-4">
+          <li className="flex justify-between items-center text-gray-700">
+            <span>Booked a Tesla for New York trip</span>
+            <span className="text-sm text-gray-400">2 days ago</span>
+          </li>
+          <li className="flex justify-between items-center text-gray-700">
+            <span>Completed a trip to LA</span>
+            <span className="text-sm text-gray-400">5 days ago</span>
+          </li>
+          <li className="flex justify-between items-center text-gray-700">
+            <span>Left a 5-star review</span>
+            <span className="text-sm text-gray-400">1 week ago</span>
+          </li>
+        </ul>
+      </motion.div>
 
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            className="bg-white/40 backdrop-blur-lg border border-white/30 rounded-xl p-6 shadow-md text-center"
-          >
-            <FaEnvelope size={32} className="mx-auto text-blue-500 mb-2" />
-            <h3 className="text-2xl font-bold">2</h3>
-            <p className="text-gray-600">Messages</p>
-          </motion.div>
-
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            className="bg-white/40 backdrop-blur-lg border border-white/30 rounded-xl p-6 shadow-md text-center"
-          >
-            <FaHourglassHalf size={32} className="mx-auto text-yellow-600 mb-2" />
-            <h3 className="text-2xl font-bold">1</h3>
-            <p className="text-gray-600">Pending</p>
-          </motion.div>
+      {/* Upcoming Bookings */}
+      <motion.div 
+        className="bg-white p-6 rounded-2xl shadow"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.5 }}
+      >
+        <h4 className="text-lg font-bold text-[#A20023] mb-4">Upcoming Bookings</h4>
+        <div className="overflow-x-auto">
+          <table className="min-w-full text-left">
+            <thead className="bg-[#A20023] text-white">
+              <tr>
+                <th className="py-3 px-4">Vehicle</th>
+                <th className="py-3 px-4">Date</th>
+                <th className="py-3 px-4">Location</th>
+                <th className="py-3 px-4">Status</th>
+              </tr>
+            </thead>
+            <tbody className="text-gray-700">
+              <tr className="border-b hover:bg-gray-50">
+                <td className="py-3 px-4">Tesla Model 3</td>
+                <td className="py-3 px-4">May 1, 2025</td>
+                <td className="py-3 px-4">New York</td>
+                <td className="py-3 px-4 text-green-600 font-semibold">Confirmed</td>
+              </tr>
+              <tr className="border-b hover:bg-gray-50">
+                <td className="py-3 px-4">BMW X5</td>
+                <td className="py-3 px-4">May 10, 2025</td>
+                <td className="py-3 px-4">Los Angeles</td>
+                <td className="py-3 px-4 text-yellow-500 font-semibold">Pending</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </motion.div>
     </div>

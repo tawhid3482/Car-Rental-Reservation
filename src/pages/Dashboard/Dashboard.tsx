@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import car from "../../assets/images/Car.png";
 
 import {
@@ -15,12 +15,14 @@ import {
   FaBook,
   FaPhone,
 } from "react-icons/fa";
-import { useAppSelector } from "../../redux/features/hooks";
-import { selectCurrentUser } from "../../redux/features/auth/authSlice";
+import { useAppDispatch, useAppSelector } from "../../redux/features/hooks";
+import { logout, selectCurrentUser } from "../../redux/features/auth/authSlice";
 
 const Dashboard = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const user = useAppSelector(selectCurrentUser);
+  const dispatch = useAppDispatch()
+  const navigate = useNavigate()
 
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 
@@ -28,6 +30,14 @@ const Dashboard = () => {
     `flex items-center gap-2 p-2 rounded-md transition duration-300 hover:bg-[#A20023] ${
       isActive ? "bg-[#A20023] font-semibold" : ""
     }`;
+
+    const handleLogout = () => {
+      dispatch(logout());
+      navigate('/')
+    };
+  
+
+
 
   return (
     <div className="flex h-full">
@@ -99,9 +109,14 @@ const Dashboard = () => {
           <NavLink to="/dashboard/settings" className={linkClass}>
             <FaCog /> Settings
           </NavLink>
-          <NavLink to="/logout" className={linkClass}>
-            <FaSignOutAlt /> Logout
-          </NavLink>
+
+          <div className="flex items-center gap-3 hover:bg-[#A20023] rounded-lg  p-2">
+          <FaSignOutAlt />
+          <button className=" cursor-pointer "  onClick={handleLogout} >
+            Logout
+          </button>
+          </div>
+        
         </div>
       </div>
 
