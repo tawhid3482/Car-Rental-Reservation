@@ -9,7 +9,9 @@ import CarDetails from "../pages/Cars/CarDetails";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import Dashboard from "../pages/Dashboard/Dashboard";
-import UserProfile from "../pages/Dashboard/User/UserProfile";
+import Profile from "../pages/Dashboard/User/Profile";
+import UpdateProfile from "../pages/Dashboard/User/UpdateProfile";
+import HomeForUser from "../pages/Dashboard/User/HomeForUser";
 
 const AppRouter = createBrowserRouter([
   {
@@ -32,7 +34,12 @@ const AppRouter = createBrowserRouter([
     path: "/dashboard",
     element: <Dashboard />,
     errorElement: <ErrorPage />,
-    children: [{ path: "/dashboard/userProfile", element: <UserProfile /> }],
+    children: [
+      { path: "/dashboard/home", element: <HomeForUser /> },
+      { path: "/dashboard/profile", element: <Profile /> },
+      { path: "/dashboard/updateProfile", element: <UpdateProfile /> }
+    
+    ],
   },
 ]);
 
