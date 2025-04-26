@@ -20,7 +20,6 @@ const authApi = baseApi.injectEndpoints({
       query: () => ({
         url: "/auth/users",
         method: "GET",
-        // body: userInfo,
       }),
       providesTags: ["users"],
     }),
@@ -31,6 +30,17 @@ const authApi = baseApi.injectEndpoints({
       }),
       providesTags: ["users"],
     }),
+    getUserStat: builder.query({
+      query: (id: string) => {
+        console.log("Fetching user stats for ID:", id);
+        return {
+          url: `auth/users/stats/${id}`,
+          method: "GET",
+        };
+      },
+      providesTags: ["users"],
+    }),
+
     updateUser: builder.mutation({
       query: ({ email, payload }) => ({
         url: `/auth/users/${email}`,
@@ -39,7 +49,6 @@ const authApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["users"],
     }),
-    
   }),
 });
 
@@ -48,5 +57,6 @@ export const {
   useSignupMutation,
   useGetAllUserQuery,
   useGetUserByEmailQuery,
-  useUpdateUserMutation
+  useUpdateUserMutation,
+  useGetUserStatQuery,
 } = authApi;

@@ -12,6 +12,7 @@ import Dashboard from "../pages/Dashboard/Dashboard";
 import Profile from "../pages/Dashboard/User/Profile";
 import UpdateProfile from "../pages/Dashboard/User/UpdateProfile";
 import HomeForUser from "../pages/Dashboard/User/HomeForUser";
+import MyBooking from "../pages/Dashboard/User/MyBooking";
 
 const AppRouter = createBrowserRouter([
   {
@@ -37,7 +38,8 @@ const AppRouter = createBrowserRouter([
     children: [
       { path: "/dashboard/home", element: <HomeForUser /> },
       { path: "/dashboard/profile", element: <Profile /> },
-      { path: "/dashboard/updateProfile", element: <UpdateProfile /> }
+      { path: "/dashboard/updateProfile", element: <UpdateProfile /> },
+      { path: "/dashboard/my-booking", element: <MyBooking /> }
     
     ],
   },

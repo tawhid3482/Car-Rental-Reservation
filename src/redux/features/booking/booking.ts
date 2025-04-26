@@ -25,6 +25,13 @@ const authApi = baseApi.injectEndpoints({
       }),
       providesTags: ["booking"],
     }),
+    getUserBookingByEmail: builder.query({
+      query: (email: string | undefined) => ({
+        url: `/bookings/my-bookings/${email}`,
+        method: "GET",
+      }),
+      providesTags: ["booking"],
+    }),
     updateBooking: builder.mutation({
       query: ({ id, data }) => {
         // console.log(id, data);
@@ -44,4 +51,5 @@ export const {
   useGetAllBookingQuery,
   useGetSingleBookingQuery,
   useUpdateBookingMutation,
+  useGetUserBookingByEmailQuery
 } = authApi;
