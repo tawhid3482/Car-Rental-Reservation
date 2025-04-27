@@ -66,23 +66,26 @@ const Dashboard = () => {
               <NavLink to="/dashboard/payment-history" className={linkClass}>
                 <FaMoneyBill /> Payment History
               </NavLink>
-              <NavLink to="/dashboard/message" className={linkClass}>
+              <NavLink to="/dashboard/messaging" className={linkClass}>
                 <FaCommentDots /> Message
               </NavLink>
             </>
           ) : (
             <>
-              <NavLink to="/dashboard/home" className={linkClass}>
+              <NavLink to="/dashboard/admin-home" className={linkClass}>
                 <FaTachometerAlt /> Admin Home
               </NavLink>
-              <NavLink to="/dashboard/my-booking" className={linkClass}>
+              <NavLink to="/dashboard/all-booking" className={linkClass}>
                 <FaListAlt /> All Booking
               </NavLink>
-              <NavLink to="/dashboard/payment-history" className={linkClass}>
+              <NavLink to="/dashboard/all-cars" className={linkClass}>
                 <FaMoneyBill /> Add Cars
               </NavLink>
-              <NavLink to="/dashboard/message" className={linkClass}>
+              <NavLink to="/dashboard/manage-cars" className={linkClass}>
                 <FaCommentDots /> Manage Cars
+              </NavLink>
+              <NavLink to="/dashboard/admin-messaging" className={linkClass}>
+                <FaCommentDots /> Message
               </NavLink>
             </>
           )}
