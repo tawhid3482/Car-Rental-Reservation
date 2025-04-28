@@ -5,26 +5,24 @@ import {
   selectCurrentUser,
   TUser,
 } from "../../../redux/features/auth/authSlice";
-import { useGetAllConversationQuery, useSendMessageMutation } from "../../../redux/features/message/message";
+import { useGetAllConversationQuery } from "../../../redux/features/message/message";
 import { useAppSelector } from "../../../redux/features/hooks";
-import toast from "react-hot-toast";
 
 
-const Messaging = () => {
+const MessagesPage = () => {
   const userInfo = useAppSelector(selectCurrentUser);
   const { data: conversationData } = useGetAllConversationQuery("");
-  const [sendMessage]=useSendMessageMutation()
   const conversation = conversationData?.data || [];
-  // console.log(conversation);
+  console.log(conversation);
 
   const { data } = useGetAllUserQuery("");
   const allUsers = data?.data || [];
   const users = allUsers.filter((user: TUser) => user?.role === "admin");
-  // console.log(users);
+  console.log(users);
 
   const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
   const [message, setMessage] = useState("");
-  // console.log(selectedUserId);
+  console.log(selectedUserId);
 
   const selectedConversation = conversation.filter(
     (item: any) =>
@@ -32,26 +30,7 @@ const Messaging = () => {
       item.lastMessage.receiver._id === selectedUserId
   );
 
-  // console.log(selectedConversation);
-
-  const handleSend = async () => {
-      const info = {
-        sender: userInfo?.id,
-        receiver: selectedUserId,
-        content: message,
-        isSeen: false,
-      };
-      console.log(info);
-      try {
-        await sendMessage(info);
-  
-        toast.success("Message sent!");
-        setMessage("");
-      } catch (error) {
-        toast.error("Failed to send message.");
-        console.error(error);
-      }
-    };
+  console.log(selectedConversation);
 
   return (
     <div className="flex flex-col md:flex-row h-screen">
@@ -187,7 +166,7 @@ const Messaging = () => {
               placeholder="Type Your message..."
               className="flex-1 p-3 md:p-4 rounded-lg bg-gray-200 focus:outline-none mr-2 md:mr-4"
             />
-            <button onClick={handleSend} className="bg-green-400 hover:bg-green-500 text-white font-bold py-2 md:py-3 px-4 md:px-6 rounded-lg cursor-pointer">
+            <button className="bg-green-400 hover:bg-green-500 text-white font-bold py-2 md:py-3 px-4 md:px-6 rounded-lg">
               Send
             </button>
           </div>
@@ -197,6 +176,6 @@ const Messaging = () => {
   );
 };
 
-export default Messaging;
+export default MessagesPage;
 
 

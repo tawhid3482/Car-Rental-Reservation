@@ -18,3 +18,8 @@ then set router.tsx or appRouters.
 then render main.tsx 
 then set a error page component and set it approuter errorElement
  
+
+
+    <span className="truncate w-24 md:w-32">
+                    {conversation?.find((m: any) => m.sender === user._id || m.receiver === user._id)?.content }
+                  </span>

@@ -43,7 +43,7 @@ const Dashboard = () => {
     <div className="flex h-full">
       {/* Sidebar */}
       <div
-        className={`bg-gray-800 text-white w-64 flex-shrink-0 p-4 flex-col justify-between fixed md:static z-40 transition-transform duration-300 ${
+        className={`bg-gray-800 text-white w-64 flex-shrink-0 p-4 flex-col justify-between fixed md:static z-40 transition-transform duration-300 h-screen overflow-y-auto ${
           isSidebarOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
         }`}
       >
@@ -124,19 +124,19 @@ const Dashboard = () => {
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col overflow-y-auto bg-gray-100">
-        {/* Topbar for mobile */}
-        <div className="md:hidden flex items-center justify-between p-4 bg-white shadow-md">
-          <button onClick={toggleSidebar}>
-            <FaBars size={24} />
-          </button>
-          <h1 className="text-xl font-bold text-[#A20023]">Dashboard</h1>
-        </div>
+      <div className="flex-1 flex flex-col h-screen overflow-y-auto bg-gray-100 ml-64 md:ml-0">
+    {/* Topbar for mobile */}
+    <div className="md:hidden flex items-center justify-between p-4 bg-white shadow-md">
+      <button onClick={toggleSidebar}>
+        <FaBars size={24} />
+      </button>
+      <h1 className="text-xl font-bold text-[#A20023]">Dashboard</h1>
+    </div>
 
-        <div className="p-4">
-          <Outlet />
-        </div>
-      </div>
+    <div className="p-4">
+      <Outlet />
+    </div>
+  </div>
     </div>
   );
 };

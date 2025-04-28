@@ -16,6 +16,7 @@ import MyBooking from "../pages/Dashboard/User/MyBooking";
 import PaymentHistory from "../pages/Dashboard/User/PaymentHistory";
 import Messaging from "../pages/Dashboard/User/Messaging";
 import AdminMessage from "../pages/Dashboard/Admin/AdminMessage";
+import Tes from "../pages/Dashboard/User/tes";
 
 const AppRouter = createBrowserRouter([
   {
@@ -46,9 +47,11 @@ const AppRouter = createBrowserRouter([
       { path: "/dashboard/payment-history", element: <PaymentHistory /> },
       { path: "/dashboard/messaging", element: <Messaging /> },
       { path: "/dashboard/admin-messaging", element: <AdminMessage /> },
+      
     
     ],
   },
+  { path: "/test", element: <Tes /> },
 ]);
 
 export default AppRouter;
