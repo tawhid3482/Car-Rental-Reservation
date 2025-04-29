@@ -9,11 +9,16 @@ const MyBooking = () => {
   const { data, isLoading } = useGetUserBookingByEmailQuery(user?.email);
   const bookings = data?.data || [];
 
-  if (isLoading) return <p className="text-center mt-10 text-lg text-[#A20023]">Loading...</p>;
+  if (isLoading)
+    return (
+      <p className="text-center mt-10 text-lg text-[#A20023]">Loading...</p>
+    );
 
   return (
     <div className="p-5 max-w-6xl mx-auto">
-      <h2 className="text-4xl font-bold mb-8 text-center text-[#A20023]">My Bookings</h2>
+      <h2 className="text-4xl font-bold mb-8 text-center text-[#A20023]">
+        My Bookings
+      </h2>
 
       {bookings.length === 0 ? (
         <p className="text-center text-gray-500 text-lg">No bookings found.</p>
@@ -36,46 +41,55 @@ const MyBooking = () => {
               {/* Details Section */}
               <div className="col-span-2 flex flex-col justify-between">
                 <div>
-                  <h3 className="text-2xl font-semibold mb-2 text-[#A20023]">{booking.car?.name}</h3>
-                  <p className="text-sm text-gray-600">Type: {booking.car?.type}</p>
-                  <p className="text-sm text-gray-600">Color: {booking.car?.color}</p>
-                  <p className="text-sm text-gray-600 mt-1">
-                    Date: <span className="text-[#3DEEB7] font-medium">{booking.date}</span> | Start-Time: {booking.startTime}
-                  </p>
-                  <p className="text-sm text-gray-600 mt-1">
-                   End-Time: {booking.endTime ? booking.endTime : 'null'} 
+                  <h3 className="text-2xl font-semibold mb-2 text-[#A20023]">
+                    {booking.car?.name}
+                  </h3>
+                  <p className="text-sm text-gray-600">
+                    Type: {booking.car?.type}
                   </p>
                   <p className="text-sm text-gray-600">
-                    Total Cost: <span className="font-medium text-[#3DEEB7]">${booking.totalCost}</span>
+                    Color: {booking.car?.color}
+                  </p>
+                  <p className="text-sm text-gray-600 mt-1">
+                    Date:{" "}
+                    <span className="text-[#3DEEB7] font-medium">
+                      {booking.date}
+                    </span>{" "}
+                    | Start-Time: {booking.startTime}
+                  </p>
+                  <p className="text-sm text-gray-600 mt-1">
+                    End-Time: {booking.endTime ? booking.endTime : "null"}
+                  </p>
+                  <p className="text-sm text-gray-600">
+                    Total Cost:{" "}
+                    <span className="font-medium text-[#3DEEB7]">
+                      ${booking.totalCost}
+                    </span>
                   </p>
                   {booking.endTime ? (
-                    <p className="text-sm text-green-600 mt-2">✅ Already Returned</p>
+                    <p className="text-sm text-green-600 mt-2">
+                      ✅ Already Returned
+                    </p>
                   ) : (
-                   <Link to={'/payment'}>
-                   
-                   <button
-                      className="mt-3 px-4 py-2 bg-[#A20023] text-white text-sm rounded cursor-pointer hover:bg-[#87001b] transition"
-                      onClick={() => {
-                        // handle return click here
-                        console.log("Return clicked for:", booking._id);
-                      }}
-                    >
-                      Return Now
-                    </button>
-
-                   </Link>
+                    <Link to={`/dashboard/payment/${booking._id}`}>
+                      <button className="mt-3 px-4 py-2 bg-[#A20023] text-white text-sm rounded cursor-pointer hover:bg-[#87001b] transition">
+                        Return Now
+                      </button>
+                    </Link>
                   )}
                 </div>
 
                 <div className="mt-4 flex flex-wrap gap-2">
-                  {booking.car?.features?.map((feature: string, index: number) => (
-                    <span
-                      key={index}
-                      className="bg-[#3DEEB7]/20 text-black text-xs px-3 py-1 rounded-lg"
-                    >
-                      {feature}
-                    </span>
-                  ))}
+                  {booking.car?.features?.map(
+                    (feature: string, index: number) => (
+                      <span
+                        key={index}
+                        className="bg-[#3DEEB7]/20 text-black text-xs px-3 py-1 rounded-lg"
+                      >
+                        {feature}
+                      </span>
+                    )
+                  )}
                 </div>
               </div>
             </div>

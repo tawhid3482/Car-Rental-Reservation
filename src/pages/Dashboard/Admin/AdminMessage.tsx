@@ -36,7 +36,6 @@ const AdminMessage = () => {
       item.lastMessage.receiver._id === selectedUserId
   );
 
-  // console.log(selectedConversation);
 
   const handleSend = async () => {
     const info = {
@@ -44,6 +43,7 @@ const AdminMessage = () => {
       receiver: selectedUserId,
       content: message,
       isSeen: false,
+      image: userInfo?.image
     };
     console.log(info);
     try {
@@ -130,7 +130,7 @@ const AdminMessage = () => {
               .map((conv, index) => {
                 const isAdmin = conv.lastMessage.sender._id === userInfo?.id;
                 const message = conv.lastMessage.content;
-                const image = conv.lastMessage.sender.image;
+                const image = conv.lastMessage.image;
                 const senderName = conv.lastMessage.sender.name;
                 const createdAt = conv.lastMessage.createdAt;
 
@@ -151,12 +151,9 @@ const AdminMessage = () => {
                       <div className="flex justify-between items-center">
                         <div className="flex items-center gap-2 md:gap-3">
                           <img
-                            src={
-                              image ||
-                              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQmwla6vUQK67X5KHksARyVrL4Evo509hBcCA&s"
-                            }
-                            className="w-10 h-10 md:w-12 md:h-12 rounded-full"
-                            alt=""
+                            src={image}
+                            className="w-10 h-10 md:w-12 md:h-12 rounded-full border"
+                            alt={senderName}
                           />
                           <h4 className="font-semibold text-sm md:text-base">
                             {senderName}

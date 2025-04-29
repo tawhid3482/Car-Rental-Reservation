@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { FaUser, FaSuitcaseRolling, FaDoorOpen } from "react-icons/fa";
 import { useGetAllCarsQuery } from "../../redux/features/car/carApi";
 import { TCar } from "../../types/car";
+import { Link } from "react-router-dom";
 
 type Inputs = {
   type: string;
@@ -160,9 +161,11 @@ const Pickup = () => {
                         ${vehicle.pricePerHour}
                       </p>
                     </div>
-                    <button className="bg-[#A20023] hover:bg-[#88001c] text-white px-4 py-2 rounded-xl transition duration-300">
+                  <Link to={`cars/${vehicle?._id}`}>
+                  <button className="bg-[#A20023] cursor-pointer hover:bg-[#88001c] text-white px-4 py-2 rounded-xl transition duration-300">
                       Rent Now
                     </button>
+                  </Link>
                   </div>
                 </div>
               </motion.div>

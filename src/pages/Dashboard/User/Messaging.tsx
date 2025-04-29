@@ -1,19 +1,21 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {  useState } from "react";
+import { useState } from "react";
 import { useGetAllUserQuery } from "../../../redux/features/auth/authApi";
 import {
   selectCurrentUser,
   TUser,
 } from "../../../redux/features/auth/authSlice";
-import { useGetAllConversationQuery, useSendMessageMutation } from "../../../redux/features/message/message";
+import {
+  useGetAllConversationQuery,
+  useSendMessageMutation,
+} from "../../../redux/features/message/message";
 import { useAppSelector } from "../../../redux/features/hooks";
 import toast from "react-hot-toast";
-
 
 const Messaging = () => {
   const userInfo = useAppSelector(selectCurrentUser);
   const { data: conversationData } = useGetAllConversationQuery("");
-  const [sendMessage]=useSendMessageMutation()
+  const [sendMessage] = useSendMessageMutation();
   const conversation = conversationData?.data || [];
   // console.log(conversation);
 
@@ -32,33 +34,34 @@ const Messaging = () => {
       item.lastMessage.receiver._id === selectedUserId
   );
 
-  // console.log(selectedConversation);
+  console.log(selectedConversation);
 
   const handleSend = async () => {
-      const info = {
-        sender: userInfo?.id,
-        receiver: selectedUserId,
-        content: message,
-        isSeen: false,
-      };
-      console.log(info);
-      try {
-        await sendMessage(info);
-  
-        toast.success("Message sent!");
-        setMessage("");
-      } catch (error) {
-        toast.error("Failed to send message.");
-        console.error(error);
-      }
+    const info = {
+      sender: userInfo?.id,
+      receiver: selectedUserId,
+      content: message,
+      isSeen: false,
+      image: userInfo?.image,
     };
+    console.log(info);
+    try {
+      await sendMessage(info);
+
+      toast.success("Message sent!");
+      setMessage("");
+    } catch (error) {
+      toast.error("Failed to send message.");
+      console.error(error);
+    }
+  };
 
   return (
     <div className="flex flex-col md:flex-row h-screen">
       {/* Left Sidebar */}
       <div className="w-full md:w-1/3 bg-gray-200 overflow-y-auto p-4 min-h-[50vh] md:min-h-full">
         <h2 className="text-xl md:text-2xl font-bold mb-4 md:mb-6 text-center md:text-left">
-          Chat with your customers
+          Chat with Admins
         </h2>
         <hr className="my-4 md:my-5" />
 
@@ -75,10 +78,7 @@ const Messaging = () => {
               }`}
             >
               <img
-                src={
-                  user.image ||
-                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtnvAOajH9gS4C30cRF7rD_voaTAKly2Ntaw&s"
-                }
+                src={user.image}
                 alt={user.name}
                 className="w-10 h-10 md:w-12 md:h-12 rounded-full object-cover mr-3 md:mr-4"
               />
@@ -126,7 +126,7 @@ const Messaging = () => {
               .map((conv, index) => {
                 const isAdmin = conv.lastMessage.sender._id === userInfo?.id;
                 const message = conv.lastMessage.content;
-                const image = conv.lastMessage.sender.image;
+                const image = conv.lastMessage.image;
                 const senderName = conv.lastMessage.sender.name;
                 const createdAt = conv.lastMessage.createdAt;
 
@@ -147,10 +147,7 @@ const Messaging = () => {
                       <div className="flex justify-between items-center">
                         <div className="flex items-center gap-2 md:gap-3">
                           <img
-                            src={
-                              image ||
-                              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQmwla6vUQK67X5KHksARyVrL4Evo509hBcCA&s"
-                            }
+                            src={image}
                             className="w-10 h-10 md:w-12 md:h-12 rounded-full"
                             alt=""
                           />
@@ -187,7 +184,10 @@ const Messaging = () => {
               placeholder="Type Your message..."
               className="flex-1 p-3 md:p-4 rounded-lg bg-gray-200 focus:outline-none mr-2 md:mr-4"
             />
-            <button onClick={handleSend} className="bg-green-400 hover:bg-green-500 text-white font-bold py-2 md:py-3 px-4 md:px-6 rounded-lg cursor-pointer">
+            <button
+              onClick={handleSend}
+              className="bg-green-400 hover:bg-green-500 text-white font-bold py-2 md:py-3 px-4 md:px-6 rounded-lg cursor-pointer"
+            >
               Send
             </button>
           </div>
@@ -198,5 +198,3 @@ const Messaging = () => {
 };
 
 export default Messaging;
-
-

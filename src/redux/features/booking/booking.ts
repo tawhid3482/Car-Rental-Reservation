@@ -20,7 +20,7 @@ const authApi = baseApi.injectEndpoints({
     }),
     getSingleBooking: builder.query({
       query: (id: string | undefined) => ({
-        url: `bookings/${id}`,
+        url: `bookings/my-bookings/id/${id}`,
         method: "GET",
       }),
       providesTags: ["booking"],

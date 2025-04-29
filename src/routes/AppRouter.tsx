@@ -17,6 +17,7 @@ import PaymentHistory from "../pages/Dashboard/User/PaymentHistory";
 import Messaging from "../pages/Dashboard/User/Messaging";
 import AdminMessage from "../pages/Dashboard/Admin/AdminMessage";
 import Tes from "../pages/Dashboard/User/tes";
+import Payment from "../pages/Dashboard/User/Payment/Payment";
 
 const AppRouter = createBrowserRouter([
   {
@@ -29,6 +30,7 @@ const AppRouter = createBrowserRouter([
       { path: "/contact", element: <Contact /> },
       { path: "/booking", element: <Booking /> },
       { path: "/cars/:id", element: <CarDetails /> },
+      { path: "/booking/cars/:id", element: <CarDetails /> },
       // { path: "/reservation", element: <Reservation /> },
     ],
   },
@@ -47,6 +49,7 @@ const AppRouter = createBrowserRouter([
       { path: "/dashboard/payment-history", element: <PaymentHistory /> },
       { path: "/dashboard/messaging", element: <Messaging /> },
       { path: "/dashboard/admin-messaging", element: <AdminMessage /> },
+      { path: "/dashboard/payment/:id", element: <Payment /> },
       
     
     ],
