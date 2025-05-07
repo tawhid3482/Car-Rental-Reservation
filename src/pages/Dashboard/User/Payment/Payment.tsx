@@ -1,6 +1,7 @@
 import { useGetSingleBookingQuery } from "../../../../redux/features/booking/booking";
 import { useParams, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 const Payment = () => {
   const { id } = useParams();
@@ -23,19 +24,36 @@ const Payment = () => {
   const hoursSpent = timeDifference / (1000 * 60 * 60);
   const totalCost = (hoursSpent * booking?.car?.pricePerHour).toFixed(2);
 
-  const handlePayBill = ({ endDate, totalCost }) => {
+  const handlePayBill = ({ endDate, totalCost }: { endDate: string; totalCost: string }) => {
     if (!paymentMethod) {
-      alert("Please select a payment method.");
+      toast.error("Please select a payment method.");
       return;
     }
-
+  
     const paymentInfo = {
       bookingId: id,
       endDate,
       totalCost,
     };
-
-    // ✅ Navigate based on selected payment method
+  
+    const savePaymentInfoToLocalStorage = () => {
+      const existing = localStorage.getItem("paymentInfo");
+  
+      if (existing) {
+        const parsed = JSON.parse(existing);
+        // যদি পুরাতন bookingId মিলে যায়, তাহলে ডিলিট করে নতুনটা সেভ করো
+        if (parsed.bookingId === id) {
+          localStorage.removeItem("paymentInfo");
+        }
+      }
+  
+      localStorage.setItem("paymentInfo", JSON.stringify(paymentInfo));
+    };
+  
+    // ✅ প্রথমে localStorage-এ সেভ করো
+    savePaymentInfoToLocalStorage();
+  
+    // ✅ তারপর রিডাইরেক্ট করো
     if (paymentMethod === "paypal") {
       navigate("/dashboard/payment/paypal", { state: paymentInfo });
     } else if (paymentMethod === "stripe") {
@@ -44,6 +62,7 @@ const Payment = () => {
       navigate("/dashboard/payment/sslcommerz", { state: paymentInfo });
     }
   };
+  
 
   return (
     <div className="bg-gradient-to-r from-teal-500 to-blue-500 min-h-screen flex justify-center items-center py-10">

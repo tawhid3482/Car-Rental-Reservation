@@ -19,8 +19,8 @@ import AdminMessage from "../pages/Dashboard/Admin/AdminMessage";
 import Tes from "../pages/Dashboard/User/tes";
 import Payment from "../pages/Dashboard/User/Payment/Payment";
 import Paypal from "../pages/Dashboard/User/Payment/Paypal";
-import Stripe from "../pages/Dashboard/User/Payment/Stripe";
 import SSLCommerz from "../pages/Dashboard/User/Payment/SSLCommerz";
+import StripeWrapper from "../pages/Dashboard/User/Payment/StripeWrapper";
 
 const AppRouter = createBrowserRouter([
   {
@@ -53,9 +53,8 @@ const AppRouter = createBrowserRouter([
       { path: "/dashboard/messaging", element: <Messaging /> },
       { path: "/dashboard/admin-messaging", element: <AdminMessage /> },
       { path: "/dashboard/payment/:id", element: <Payment /> },
-      { path: "/dashboard/payment/:id", element: <Payment /> },
       { path: "/dashboard/payment/paypal", element: <Paypal /> },
-      { path: "/dashboard/payment/stripe", element: <Stripe /> },
+      { path: "/dashboard/payment/stripe", element: <StripeWrapper /> },
       { path: "/dashboard/payment/sslCommerz", element: <SSLCommerz /> },
       
     

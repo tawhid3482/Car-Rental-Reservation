@@ -14,6 +14,7 @@ import {
   FaHome,
   FaBook,
   FaPhone,
+  FaTimes, // Import the close icon
 } from "react-icons/fa";
 import { useAppDispatch, useAppSelector } from "../../redux/features/hooks";
 import { logout, selectCurrentUser } from "../../redux/features/auth/authSlice";
@@ -21,31 +22,30 @@ import { logout, selectCurrentUser } from "../../redux/features/auth/authSlice";
 const Dashboard = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const user = useAppSelector(selectCurrentUser);
-  const dispatch = useAppDispatch()
-  const navigate = useNavigate()
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
+
+  const closeSidebar = () => setIsSidebarOpen(false); // Function to close the sidebar
 
   const linkClass = ({ isActive }: { isActive: boolean }) =>
     `flex items-center gap-2 p-2 rounded-md transition duration-300 hover:bg-[#A20023] ${
       isActive ? "bg-[#A20023] font-semibold" : ""
     }`;
 
-    const handleLogout = () => {
-      dispatch(logout());
-      navigate('/')
-    };
-  
-
-
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate("/");
+  };
 
   return (
     <div className="flex h-full">
       {/* Sidebar */}
       <div
-        className={`bg-gray-800 text-white w-64 flex-shrink-0 p-4 flex-col justify-between fixed md:static z-40 transition-transform duration-300 h-screen overflow-y-auto ${
+        className={`bg-gray-800 text-white w-64 flex-shrink-0 p-4 flex-col justify-between fixed md:static z-40 transition-transform duration-300 h-screen overflow-y-auto md:w-64 ${
           isSidebarOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
-        }`}
+        } md:translate-x-0`}
       >
         {/* Logo */}
         <div className="flex flex-col items-center mb-6">
@@ -113,30 +113,39 @@ const Dashboard = () => {
             <FaCog /> Settings
           </NavLink>
 
-          <div className="flex items-center gap-3 hover:bg-[#A20023] rounded-lg  p-2">
-          <FaSignOutAlt />
-          <button className=" cursor-pointer "  onClick={handleLogout} >
-            Logout
-          </button>
+          <div className="flex items-center gap-3 hover:bg-[#A20023] rounded-lg p-2">
+            <FaSignOutAlt />
+            <button className="cursor-pointer" onClick={handleLogout}>
+              Logout
+            </button>
           </div>
-        
         </div>
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col h-screen overflow-y-auto bg-gray-100 ml-64 md:ml-0">
-    {/* Topbar for mobile */}
-    <div className="md:hidden flex items-center justify-between p-4 bg-white shadow-md">
-      <button onClick={toggleSidebar}>
-        <FaBars size={24} />
-      </button>
-      <h1 className="text-xl font-bold text-[#A20023]">Dashboard</h1>
-    </div>
+      <div className="flex-1 flex flex-col h-screen overflow-y-auto bg-gray-100 md:ml-2">
+        {/* Topbar for mobile */}
+        <div className="md:hidden flex items-center justify-between p-4 bg-white shadow-md">
+          <button onClick={toggleSidebar}>
+            <FaBars size={24} />
+          </button>
+          <h1 className="text-xl font-bold text-[#A20023]">Dashboard</h1>
+        </div>
 
-    <div className="p-4">
-      <Outlet />
-    </div>
-  </div>
+        {/* Mobile Close Button */}
+        {isSidebarOpen && (
+          <div className="md:hidden fixed top-0 left-0 right-0 bottom-0 bg-black bg-opacity-50 z-30" onClick={closeSidebar}>
+            <div className="absolute top-4 right-4 text-white">
+              <FaTimes size={30} onClick={closeSidebar} />
+            </div>
+          </div>
+        )}
+
+        {/* Main Content Area */}
+        <div className="p-4">
+          <Outlet />
+        </div>
+      </div>
     </div>
   );
 };
