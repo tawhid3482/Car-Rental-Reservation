@@ -2,16 +2,14 @@ import { baseApi } from "../../api/baseApi";
 
 const PaymentApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    // Send a new Payment
     savePayment: builder.mutation({
       query: (data) => ({
-        url: "Payment",
+        url: "payment",
         method: "POST",
         body: data,
       }),
       invalidatesTags: ["payment"],
     }),
-
     // initiate a specific Payment
     initiatePayment: builder.mutation({
       query: (data) => ({
@@ -21,10 +19,15 @@ const PaymentApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["payment"],
     }),
+    getUserPayment: builder.query({
+      query: (email:string) => ({
+        url: `payment/${email}`,
+        method: "GET",
+      }),
+      providesTags: ["payment"],
+    }),
   }),
 });
 
-export const {
-  useSavePaymentMutation,
-  useInitiatePaymentMutation,
-} = PaymentApi;
+export const { useSavePaymentMutation, useInitiatePaymentMutation,useGetUserPaymentQuery } =
+  PaymentApi;

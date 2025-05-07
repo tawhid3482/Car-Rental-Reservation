@@ -8,6 +8,8 @@ import {
   useInitiatePaymentMutation,
   useSavePaymentMutation,
 } from "../../../../redux/features/payment/paymentApi";
+import { useReturnCarMutation } from "../../../../redux/features/car/carApi";
+import { useNavigate } from "react-router-dom";
 
 const StripePayment = () => {
   const user = useAppSelector(selectCurrentUser);
@@ -15,6 +17,8 @@ const StripePayment = () => {
   const stripe = useStripe();
   const elements = useElements();
   const [savePayment] = useSavePaymentMutation();
+  const [returnCar] = useReturnCarMutation();
+  const navigate = useNavigate(); // Import useNavigate from react-router-dom
 
   const [clientSecret, setClientSecret] = useState("");
   const [error, setError] = useState("");
@@ -96,17 +100,27 @@ const StripePayment = () => {
 
     // If payment is successful
     if (paymentIntent.status === "succeeded") {
-      setTransactionId(paymentIntent.id);
-      await savePayment({
+      const paymentData = {
         userId: user?.id,
         orderId: data?.bookingId,
         transactionId: paymentIntent.id,
-        amount: totalAmount,
+        amount: Number(totalAmount),
         paymentMethod: "stripe",
         status: "success",
         currency: "usd",
-      });
+      };
+      const carData = {
+        bookingId: data?.bookingId,
+        endTime: data?.endDate,
+      };
+      setTransactionId(paymentIntent.id);
+      await savePayment(paymentData).unwrap();
+      await returnCar(carData).unwrap();
+
+      localStorage.removeItem("paymentInfo");
+
       setSuccess("✅ Payment successful! Thank you.");
+      navigate("/dashboard/payment-history"); // Redirect to My Bookings page
     } else {
       setError("Payment failed. Please try again.");
     }

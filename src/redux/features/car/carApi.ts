@@ -18,7 +18,7 @@ const authApi = baseApi.injectEndpoints({
       providesTags: ["cars"],
     }),
     getSingleCar: builder.query({
-      query: (id: string|undefined) => ({
+      query: (id: string | undefined) => ({
         url: `cars/${id}`,
         method: "GET",
       }),
@@ -35,6 +35,13 @@ const authApi = baseApi.injectEndpoints({
       },
       invalidatesTags: ["cars"],
     }),
+    returnCar: builder.mutation({
+      query: (data) => ({
+        url: `cars/return`,
+        method: "PUT",
+        body: data,
+      }),
+    }),
   }),
 });
 
@@ -43,4 +50,5 @@ export const {
   useGetAllCarsQuery,
   useUpdateCarMutation,
   useGetSingleCarQuery,
+  useReturnCarMutation
 } = authApi;
