@@ -65,7 +65,7 @@ const Payment = () => {
   
 
   return (
-    <div className="bg-gradient-to-r from-teal-500 to-blue-500 min-h-screen flex justify-center items-center py-10">
+    <div className="bg-gradient-to-r from-teal-500 to-[#7a1329]  min-h-screen flex justify-center items-center py-10">
       <div className="bg-white rounded-lg shadow-xl w-full max-w-4xl flex overflow-hidden">
         {/* Left Side */}
         <div className="p-8 w-1/2">
@@ -154,7 +154,7 @@ const Payment = () => {
                   totalCost,
                 })
               }
-              className="w-full py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors"
+              className="w-full py-3 bg-[#3DEEB7] text-white font-semibold rounded-lg hover:bg-[#A20023] cursor-pointer transition-colors"
             >
               Pay Now
             </button>

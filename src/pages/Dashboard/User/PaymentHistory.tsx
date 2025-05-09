@@ -36,7 +36,7 @@ const PaymentHistory = () => {
                 <tr key={payment._id} className="border-t hover:bg-gray-50">
                   <td className="py-3 px-4">{payment.userId.name}</td>
                   <td className="py-3 px-4 text-sm text-gray-700">
-                    {payment._id}
+                    {payment.transactionId}
                   </td>
                   <td className="py-3 px-4">{payment.paymentMethod}</td>
                   <td className="py-3 px-4 text-[#3DEEB7] font-semibold">
