@@ -1,5 +1,16 @@
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const Paypal = () => {
+  const navigate = useNavigate();
+
+  const handlePayment = () => {
+    toast.error(
+      "Sorry, In Bangladesh, PayPal is not available. That way developers can not use it."
+    );
+    navigate("/dashboard/my-booking");
+  };
+
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <div className="bg-white shadow-lg rounded-lg w-full max-w-md p-6">
@@ -13,7 +24,7 @@ const Paypal = () => {
         <div className="flex justify-center mb-6">
           <button
             className="bg-[#3DEEB7] text-white font-bold py-2 px-6 rounded-lg hover:bg-[#33c493] transition duration-300"
-            onClick={() => alert("Proceeding to PayPal...")}
+            onClick={handlePayment}
           >
             Pay Now
           </button>
