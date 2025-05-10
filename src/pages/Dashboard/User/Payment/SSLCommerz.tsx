@@ -1,42 +1,44 @@
+// components/SSLCommerz.tsx
 import { useState } from "react";
-import { useInitiatePaymentMutation } from "../../../../redux/features/payment/paymentApi";
-import { useAppSelector } from "../../../../redux/features/hooks";
 import { selectCurrentUser } from "../../../../redux/features/auth/authSlice";
+import { useAppSelector } from "../../../../redux/features/hooks";
+import { useSavePaymentMutation } from "../../../../redux/features/payment/paymentApi";
+import { useReturnCarMutation } from "../../../../redux/features/car/carApi";
 
 const SSLCommerz = () => {
   const user = useAppSelector(selectCurrentUser);
   const data = JSON.parse(localStorage.getItem("paymentInfo") || "{}");
   const totalAmount = data?.totalCost || 0;
-
-  const [initiatePayment] = useInitiatePaymentMutation();
+  // const [createPayments] = useCreatePaymentsMutation();
+  const [savePayment] = useSavePaymentMutation();
+  const [returnCar] = useReturnCarMutation();
   const [loading, setLoading] = useState(false);
 
   const handlePayment = async () => {
     setLoading(true);
+
+    const paymentPayload = {
+      userId: user?.id,
+      transactionId: `txn_${Date.now()}`,
+      orderId: data?.bookingId,
+      amount: Number(data?.totalCost),
+      name: user?.name,
+      email: user?.email,
+      paymentMethod: "sslcommerz",
+    };
+
     try {
-      const transactionId = `txn_${Date.now()}`;
-
-      const res = await initiatePayment({
-        paymentMethod: "sslcommerz",
-        amount: Number(totalAmount),
-        transactionId,
-        success_url: "http://localhost:5173/dashboard/payment-history",
-        fail_url: "http://localhost:5173/dashboard/payment/sslCommerz",
-        cancel_url: "http://localhost:5173/dashboard/my-booking",
-        cus_email: user?.email,
-        cus_name: user?.name,
-      }).unwrap();
-
-      const gatewayUrl = res?.data?.GatewayPageURL;
-      console.log("Payment response:", gatewayUrl);
-
-      if (gatewayUrl) {
-        window.location.href = gatewayUrl;
-      } else {
-        throw new Error("SSLCommerz Gateway URL missing");
+      const res = await savePayment(paymentPayload).unwrap();
+      if (res?.data) {
+        window.location.replace(res.data);
       }
+      const carData = {
+        bookingId: data?.bookingId,
+        endTime: data?.endDate,
+      };
+      await returnCar(carData).unwrap();
     } catch (error) {
-      console.error("Payment initiation failed", error);
+      console.error("Error creating payment:", error);
     } finally {
       setLoading(false);
     }
@@ -66,20 +68,14 @@ const SSLCommerz = () => {
           <button
             disabled={loading}
             onClick={handlePayment}
-            className={`w-full text-center text-white font-bold py-3 px-6 rounded-xl transition duration-300 ${
+            className={`w-full text-center text-white font-bold py-3 px-6 rounded-xl transition ${
               loading
                 ? "bg-gray-400 cursor-not-allowed"
-                : "bg-[#A20023] hover:bg-[#8e001f] cursor-pointer"
+                : "bg-[#A20023] hover:bg-[#85001a]"
             }`}
           >
-            {loading ? "Processing..." : "Pay Now"}
+            {loading ? "Processing..." : "Pay with SSLCommerz"}
           </button>
-
-          {loading && (
-            <div className="w-full bg-gray-200 rounded-full h-2.5 mt-6">
-              <div className="bg-[#A20023] h-2.5 rounded-full animate-pulse w-full"></div>
-            </div>
-          )}
         </div>
       </div>
     </div>

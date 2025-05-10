@@ -10,6 +10,14 @@ const PaymentApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["payment"],
     }),
+    createPayments: builder.mutation({
+      query: (info) => ({
+        url: "payment/create-ssl-payment",
+        method: "POST",
+        body: info,
+      }),
+      invalidatesTags: ["payment"],
+    }),
     // initiate a specific Payment
     initiatePayment: builder.mutation({
       query: (data) => ({
@@ -29,5 +37,5 @@ const PaymentApi = baseApi.injectEndpoints({
   }),
 });
 
-export const { useSavePaymentMutation, useInitiatePaymentMutation,useGetUserPaymentQuery } =
+export const { useSavePaymentMutation, useInitiatePaymentMutation,useGetUserPaymentQuery,useCreatePaymentsMutation } =
   PaymentApi;
