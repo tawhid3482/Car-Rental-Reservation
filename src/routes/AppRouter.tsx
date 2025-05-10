@@ -22,6 +22,8 @@ import Paypal from "../pages/Dashboard/User/Payment/Paypal";
 import SSLCommerz from "../pages/Dashboard/User/Payment/SSLCommerz";
 import StripeWrapper from "../pages/Dashboard/User/Payment/StripeWrapper";
 import PaymentSuccess from "../pages/Dashboard/User/Payment/PaymentSuccess";
+import AdminHome from "../pages/Dashboard/Admin/AdminHome";
+import AllBooking from "../pages/Dashboard/Admin/AllBooking";
 
 const AppRouter = createBrowserRouter([
   {
@@ -59,6 +61,8 @@ const AppRouter = createBrowserRouter([
       { path: "/dashboard/payment/paypal", element: <Paypal /> },
       { path: "/dashboard/payment/stripe", element: <StripeWrapper /> },
       { path: "/dashboard/payment/sslCommerz", element: <SSLCommerz /> },
+      { path: "/dashboard/admin-home", element: <AdminHome /> },
+      { path: "/dashboard/all-booking", element: <AllBooking /> },
      
       
     

@@ -11,7 +11,8 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const dispatch = useAppDispatch();
 
-  // console.log(user)
+  
+  console.log(user?.role)
 
   const handleLogout = () => {
     dispatch(logout());
@@ -110,8 +111,7 @@ const Navbar = () => {
                   👤 {user?.name}
                 </div>
                 <NavLink
-                  to="/dashboard/home"
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                  to={user?.role === "admin" ? "dashboard/admin-home" : "/dashboard/home"} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                   onClick={() => setIsOpen(false)}
                 >
                   Dashboard
@@ -186,7 +186,7 @@ const Navbar = () => {
                 <span>{user.email}</span>
               </div>
               <NavLink
-                to="/dashboard"
+                to={user?.role === "admin" ? "dashboard/admin-home" : "/dashboard/home"} 
                 className="text-white hover:text-[#A20023]"
                 onClick={() => setIsMenuOpen(false)}
               >
