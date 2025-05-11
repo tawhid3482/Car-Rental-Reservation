@@ -26,6 +26,7 @@ import AdminHome from "../pages/Dashboard/Admin/AdminHome";
 import AllBooking from "../pages/Dashboard/Admin/AllBooking";
 import AddCar from "../pages/Dashboard/Admin/AddCar";
 import ManageCars from "../pages/Dashboard/Admin/ManageCars";
+import UpdateCar from "../pages/Dashboard/Admin/UpdateCar";
 
 const AppRouter = createBrowserRouter([
   {
@@ -67,6 +68,7 @@ const AppRouter = createBrowserRouter([
       { path: "/dashboard/all-booking", element: <AllBooking /> },
       { path: "/dashboard/add-cars", element: <AddCar /> },
       { path: "/dashboard/manage-cars", element: <ManageCars /> },
+      { path: "/dashboard/manage-cars/update/:id", element: <UpdateCar /> },
     ],
   },
   { path: "/test", element: <Tes /> },

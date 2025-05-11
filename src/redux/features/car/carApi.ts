@@ -42,6 +42,13 @@ const authApi = baseApi.injectEndpoints({
         body: data,
       }),
     }),
+    updateSingleCar: builder.mutation({
+      query: ({id, data}) => ({
+        url: `cars/${id}`,
+        method: "PUT",
+        body: data,
+      }),
+    }),
     deleteCar: builder.mutation({
       query: (id:string) => ({
         url: `cars/${id}`,
@@ -58,5 +65,6 @@ export const {
   useUpdateCarMutation,
   useDeleteCarMutation,
   useGetSingleCarQuery,
-  useReturnCarMutation
+  useReturnCarMutation,
+  useUpdateSingleCarMutation
 } = authApi;

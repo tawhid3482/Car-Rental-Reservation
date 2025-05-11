@@ -1,38 +1,61 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+// UpdateCarForm.tsx
+import { useNavigate, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import {
+  useGetSingleCarQuery,
+  useUpdateCarMutation,
+} from "../../../redux/features/car/carApi";
+import toast from "react-hot-toast";
+import { FaCar, FaCheckCircle, FaCloudUploadAlt } from "react-icons/fa";
 import { useForm } from "react-hook-form";
-import { useAddCarsMutation } from "../../../redux/features/car/carApi";
-import { useState } from "react";
-import { toast } from "react-hot-toast";
-import { FaCar, FaCheckCircle, FaCloudUploadAlt } from "react-icons/fa"; 
-const imgbbAPIKey = import.meta.env.VITE_IMAGE_HOSTING_KEY as string; 
 
-type CarFormInputs = {
+const imgbbAPIKey = import.meta.env.VITE_IMGBB_KEY;
+
+interface CarFormInputs {
   name: string;
   type: string;
   sit: number;
   door: number;
   bag: number;
   love: number;
-  description: string;
   color: string;
-  isElectric: boolean;
-  status: "available" | "unavailable";
-  features: string;
   pricePerHour: number;
+  isElectric: string;
+  status: string;
+  features: string;
+  description: string;
   images: FileList;
-};
+}
 
-const AddCar = () => {
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm<CarFormInputs>();
-  const [addCars, { isLoading }] = useAddCarsMutation();
+const UpdateCarForm = () => {
+  const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
+  const { data, isLoading } = useGetSingleCarQuery(id!, { skip: !id });
+  const car = data?.data || null;
+  const [updateCar] = useUpdateCarMutation();
+
   const [uploading, setUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [imageUrls, setImageUrls] = useState<string[]>([]);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<CarFormInputs>();
+
+  useEffect(() => {
+    if (car) {
+      reset({
+        ...car,
+        features: car.features?.join(", ") || "",
+        isElectric: String(car.isElectric),
+      });
+      setImageUrls(car.image);
+    }
+  }, [car, reset]);
 
   const uploadImageToImgbb = async (file: File): Promise<string> => {
     const formData = new FormData();
@@ -54,45 +77,45 @@ const AddCar = () => {
 
   const onSubmit = async (data: CarFormInputs) => {
     setUploading(true);
-    const imageFiles = Array.from(data.images);
-    setImageUrls([]); // Clear previous URLs
+    let uploadedUrls = imageUrls;
 
     try {
-      const urls = await Promise.all(
-        imageFiles.map(async (file, index, array) => {
-          const url = await uploadImageToImgbb(file);
-          setUploadProgress(Math.round(((index + 1) / array.length) * 100));
-          return url;
-        })
-      );
-      setImageUrls(urls);
+      if (data.images && data.images.length > 0) {
+        const imageFiles = Array.from(data.images);
+        uploadedUrls = await Promise.all(
+          imageFiles.map(async (file, index, array) => {
+            const url = await uploadImageToImgbb(file);
+            setUploadProgress(Math.round(((index + 1) / array.length) * 100));
+            return url;
+          })
+        );
+        setImageUrls(uploadedUrls);
+      }
 
       const payload = {
         name: data.name,
         type: data.type,
-        image: urls,
+        image: uploadedUrls,
         sit: Number(data.sit),
         door: Number(data.door),
         bag: Number(data.bag),
         love: Number(data.love),
         description: data.description,
         color: data.color,
-        isElectric: data.isElectric,
+        isElectric: data.isElectric === "true",
         status: data.status,
         features: data.features.split(",").map((f) => f.trim()),
         pricePerHour: Number(data.pricePerHour),
         isDeleted: false,
       };
-      console.log("🚗 Car data to be added:", payload);
 
-      await addCars(payload);
-      toast.success(" Car added successfully!");
-      reset();
-      setImageUrls([]);
+      await updateCar({ id: id!, data: payload }).unwrap();
+      toast.success("Car updated successfully!");
+      navigate("/dashboard/manage-cars");
     } catch (error: any) {
-      console.error("❌ Upload failed:", error);
+      console.error("❌ Update failed:", error);
       toast.error(
-        `❌ Upload failed: ${error.message || "Something went wrong"}`
+        `❌ Update failed: ${error.message || "Something went wrong"}`
       );
     } finally {
       setUploading(false);
@@ -103,7 +126,8 @@ const AddCar = () => {
   return (
     <div className="max-w-4xl mx-auto p-8 bg-white rounded-xl shadow-md mt-10 border border-gray-200">
       <h2 className="text-3xl font-semibold text-gray-800 mb-6 flex items-center justify-center gap-2">
-        <FaCar className="text-blue-500" /> Add New Car
+        <FaCar className="text-blue-500" />
+        Update Car
       </h2>
       <form
         onSubmit={handleSubmit(onSubmit)}
@@ -119,6 +143,7 @@ const AddCar = () => {
           <input
             {...register("name", { required: "Car name is required" })}
             id="name"
+            defaultValue={car?.name}
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             placeholder="Enter car name"
           />
@@ -366,19 +391,13 @@ const AddCar = () => {
           </label>
           <input
             type="file"
-            {...register("images", {
-              required: "At least one image is required",
-            })}
+            {...register("images")}
             id="images"
             accept="image/*"
             multiple
             className="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           />
-          {errors.images && (
-            <p className="text-red-500 text-xs italic">
-              {errors.images.message}
-            </p>
-          )}
+
           {uploading && (
             <div className="mt-2">
               <progress
@@ -391,7 +410,7 @@ const AddCar = () => {
               </p>
             </div>
           )}
-          {imageUrls.length > 0 && (
+          {imageUrls?.length > 0 && (
             <div className="mt-2">
               <p className="text-gray-700 text-sm font-medium">
                 Uploaded Images:
@@ -417,7 +436,7 @@ const AddCar = () => {
             className={`w-full cursor-pointer bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-xl focus:outline-none focus:shadow-outline transition-colors duration-300 ${
               uploading || isLoading ? "opacity-50 cursor-not-allowed" : ""
             }`}
-          > 
+          >
             {isLoading ? (
               "Adding Car..."
             ) : uploading ? (
@@ -434,4 +453,4 @@ const AddCar = () => {
   );
 };
 
-export default AddCar;
+export default UpdateCarForm;

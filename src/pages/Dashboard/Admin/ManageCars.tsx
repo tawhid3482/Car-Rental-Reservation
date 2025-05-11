@@ -6,6 +6,7 @@ import {
 import Swal from "sweetalert2";
 import { TCar } from "../../../types/car";
 import toast from "react-hot-toast";
+import { Link } from "react-router-dom";
 
 const ManageCars = () => {
   const { data, isLoading, isError } = useGetAllCarsQuery("");
@@ -87,12 +88,11 @@ const ManageCars = () => {
                   <span className="font-medium">{car.color}</span>
                 </td>
                 <td className="px-4 py-3 space-x-2">
-                  <button
-                    onClick={() => alert("Update functionality")}
-                    className="bg-blue-100 text-blue-600 hover:bg-blue-200 transition px-3 py-1 rounded text-sm"
-                  >
-                    ✏️ Update
-                  </button>
+                  <Link to={`update/${car._id}`}>
+                    <button className="bg-blue-100 text-blue-600 hover:bg-blue-200 transition px-3 py-1 rounded text-sm">
+                      ✏️ Update
+                    </button>
+                  </Link>
                   <button
                     onClick={() => handleDelete(car._id)}
                     className="bg-red-100 text-red-600 hover:bg-red-200 transition px-3 py-1 rounded text-sm"
