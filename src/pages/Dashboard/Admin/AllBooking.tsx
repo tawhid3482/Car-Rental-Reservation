@@ -5,7 +5,6 @@ const BookingCard = () => {
   const { data, isLoading } = useGetAllBookingQuery("");
 
   const bookings = data?.data || [];
-  console.log(bookings);
 
   if (isLoading) {
     return <p className="text-center text-gray-500">Loading bookings...</p>;
@@ -13,6 +12,7 @@ const BookingCard = () => {
 
   return (
     <div className="space-y-6">
+      <p className="text-center md:text-4xl font-bold my-5">All Bookings</p>
       {bookings.map((booking: TBooking) => {
         const { _id, user, car, date, startTime, endTime, totalCost } = booking;
 

@@ -144,7 +144,7 @@ const AdminMessage = () => {
                     <div
                       className={`p-3 md:p-4 rounded-2xl md:rounded-3xl max-w-[85%] md:max-w-xl flex flex-col ${
                         isAdmin
-                          ? "bg-green-400 text-white"
+                          ? "bg-[#A20023]  text-white"
                           : "bg-gray-200 text-black"
                       }`}
                     >

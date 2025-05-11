@@ -103,7 +103,7 @@ const AddCar = () => {
   return (
     <div className="max-w-4xl mx-auto p-8 bg-white rounded-xl shadow-md mt-10 border border-gray-200">
       <h2 className="text-3xl font-semibold text-gray-800 mb-6 flex items-center justify-center gap-2">
-        <FaCar className="text-blue-500" /> Add New Car
+        <FaCar className="text-[#A20023] " /> Add New Car
       </h2>
       <form
         onSubmit={handleSubmit(onSubmit)}
@@ -414,7 +414,7 @@ const AddCar = () => {
           <button
             type="submit"
             disabled={uploading || isLoading}
-            className={`w-full cursor-pointer bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-xl focus:outline-none focus:shadow-outline transition-colors duration-300 ${
+            className={`w-full cursor-pointer bg-[#A20023]  hover:bg-[#3DEEB7] text-white font-bold py-3 px-6 rounded-xl focus:outline-none focus:shadow-outline transition-colors duration-300 ${
               uploading || isLoading ? "opacity-50 cursor-not-allowed" : ""
             }`}
           > 

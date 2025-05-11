@@ -89,13 +89,13 @@ const ManageCars = () => {
                 </td>
                 <td className="px-4 py-3 space-x-2">
                   <Link to={`update/${car._id}`}>
-                    <button className="bg-blue-100 text-blue-600 hover:bg-blue-200 transition px-3 py-1 rounded text-sm">
+                    <button className="bg-[#b7e0d3] text-[#A20023]  hover:bg-blue-200 transition px-3 py-1 rounded text-sm">
                       ✏️ Update
                     </button>
                   </Link>
                   <button
                     onClick={() => handleDelete(car._id)}
-                    className="bg-red-100 text-red-600 hover:bg-red-200 transition px-3 py-1 rounded text-sm"
+                    className="bg-[#cac4c6]  text-[#A20023]  hover:bg-red-200 transition px-3 py-1 rounded text-sm"
                   >
                     🗑️ Delete
                   </button>

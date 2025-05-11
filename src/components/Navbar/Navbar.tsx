@@ -11,9 +11,6 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const dispatch = useAppDispatch();
 
-  
-  console.log(user?.role)
-
   const handleLogout = () => {
     dispatch(logout());
   };
