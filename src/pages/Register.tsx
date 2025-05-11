@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Link, useNavigate } from "react-router-dom";
 import { useSignupMutation } from "../redux/features/auth/authApi";
 import { useAppDispatch } from "../redux/features/hooks";
@@ -71,7 +72,6 @@ const Register = () => {
         navigate("/");
       }
     } catch (err) {
-      console.error("Signup failed", err);
       toast.error("Signup failed. Please try again.");
     }
   };

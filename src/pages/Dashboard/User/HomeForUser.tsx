@@ -11,7 +11,6 @@ const HomeForUser = () => {
   const { data } = useGetUserStatQuery(user?.id ?? "");
 
   const statsData = data?.data;
-  console.log("User Stats Data:", statsData);
 
   // Create array for mapping
   const info = useMemo(() => {

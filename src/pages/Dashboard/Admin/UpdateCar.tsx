@@ -113,7 +113,6 @@ const UpdateCarForm = () => {
       toast.success("Car updated successfully!");
       navigate("/dashboard/manage-cars");
     } catch (error: any) {
-      console.error("❌ Update failed:", error);
       toast.error(
         `❌ Update failed: ${error.message || "Something went wrong"}`
       );

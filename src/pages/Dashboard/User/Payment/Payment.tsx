@@ -10,7 +10,6 @@ const Payment = () => {
   const [paymentMethod, setPaymentMethod] = useState(""); // ✅ Track selected payment method
 
   const booking = data?.data;
-// console.log(booking);
   const startTime = `${booking?.date} ${booking?.startTime}`;
   const now = new Date();
   const currentDate = now.toISOString().split("T")[0];

@@ -42,7 +42,6 @@ const CarDetails = () => {
       startTime: formData.pickUpTime,
       carId: car._id,
     };
-    console.log(bookingData);
     try {
       await addToBooking(bookingData).unwrap();
       toast.success("Booking successful!");

@@ -34,7 +34,6 @@ const authApi = baseApi.injectEndpoints({
     }),
     updateBooking: builder.mutation({
       query: ({ id, data }) => {
-        // console.log(id, data);
         return {
           url: `bookings/${id}`,
           method: "PUT",

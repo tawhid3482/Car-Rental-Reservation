@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
@@ -42,7 +43,6 @@ const Cars = () => {
       await updateCar({ id, data: { love: newLoveCount } }); 
       toast.success("Love it");
     } catch (error) {
-      console.error("Error updating love count:", error);
       toast.error("Love count error");
     }
   };

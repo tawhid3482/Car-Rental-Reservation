@@ -36,14 +36,11 @@ const baseQueryWithRefreshToken: BaseQueryFn<
   }
   if (result?.error?.status === 401) {
     //* Send Refresh
-    console.log("Sending refresh token");
-
     const res = await fetch("http://localhost:5000", {
       method: "POST",
       credentials: "include",
     });
     const data = await res.json();
-    console.log("important console", data);
     if (data?.data?.accessToken) {
       const user = (api.getState() as RootState).auth.user;
       api.dispatch(

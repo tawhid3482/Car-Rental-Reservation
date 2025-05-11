@@ -38,7 +38,6 @@ const Login = () => {
       toast.success("Logged in");
       navigate("/");
     } catch (err: any) {
-      console.error("Login error:", err);
       toast.error(err?.data?.message || "Something went wrong");
     }
   };

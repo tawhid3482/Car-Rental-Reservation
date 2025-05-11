@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
 import { useGetAllUserQuery } from "../../../redux/features/auth/authApi";
@@ -17,16 +18,13 @@ const Messaging = () => {
   const { data: conversationData } = useGetAllConversationQuery("");
   const [sendMessage] = useSendMessageMutation();
   const conversation = conversationData?.data || [];
-  // console.log(conversation);
 
   const { data } = useGetAllUserQuery("");
   const allUsers = data?.data || [];
   const users = allUsers.filter((user: TUser) => user?.role === "admin");
-  // console.log(users);
 
   const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
   const [message, setMessage] = useState("");
-  // console.log(selectedUserId);
 
   const selectedConversation = conversation.filter(
     (item: any) =>
@@ -34,7 +32,6 @@ const Messaging = () => {
       item.lastMessage.receiver._id === selectedUserId
   );
 
-  console.log(selectedConversation);
 
   const handleSend = async () => {
     const info = {
@@ -44,7 +41,6 @@ const Messaging = () => {
       isSeen: false,
       image: userInfo?.image,
     };
-    console.log(info);
     try {
       await sendMessage(info);
 
@@ -52,7 +48,6 @@ const Messaging = () => {
       setMessage("");
     } catch (error) {
       toast.error("Failed to send message.");
-      console.error(error);
     }
   };
 

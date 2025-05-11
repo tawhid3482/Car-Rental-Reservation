@@ -25,7 +25,6 @@ const CheckoutForm = () => {
 
     const card = elements.getElement(CardElement);
     if (!card) {
-      console.error("Card element not found");
       return;
     }
 
@@ -35,7 +34,6 @@ const CheckoutForm = () => {
     });
 
     if (error) {
-      console.error(error);
       return;
     }
 

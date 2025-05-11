@@ -83,14 +83,12 @@ const AddCar = () => {
         pricePerHour: Number(data.pricePerHour),
         isDeleted: false,
       };
-      console.log("🚗 Car data to be added:", payload);
 
       await addCars(payload);
       toast.success(" Car added successfully!");
       reset();
       setImageUrls([]);
     } catch (error: any) {
-      console.error("❌ Upload failed:", error);
       toast.error(
         `❌ Upload failed: ${error.message || "Something went wrong"}`
       );

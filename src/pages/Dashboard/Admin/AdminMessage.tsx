@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { useGetAllUserQuery } from "../../../redux/features/auth/authApi";
@@ -17,18 +18,15 @@ const AdminMessage = () => {
   const userInfo = useAppSelector(selectCurrentUser);
   const { data: conversationData } = useGetAllConversationQuery("");
   const conversation = conversationData?.data || [];
-  // console.log(conversation);
 
   const [sendMessage] = useSendMessageMutation();
 
   const { data } = useGetAllUserQuery("");
   const allUsers = data?.data || [];
   const users = allUsers.filter((user: TUser) => user?.role === "user");
-  // console.log(users);
 
   const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
   const [message, setMessage] = useState("");
-  // console.log(selectedUserId);
 
   const selectedConversation = conversation.filter(
     (item: any) =>
@@ -45,7 +43,6 @@ const AdminMessage = () => {
       isSeen: false,
       image: userInfo?.image
     };
-    console.log(info);
     try {
       await sendMessage(info);
 
@@ -53,7 +50,6 @@ const AdminMessage = () => {
       setMessage("");
     } catch (error) {
       toast.error("Failed to send message.");
-      console.error(error);
     }
   };
 
