@@ -24,6 +24,8 @@ import StripeWrapper from "../pages/Dashboard/User/Payment/StripeWrapper";
 import PaymentSuccess from "../pages/Dashboard/User/Payment/PaymentSuccess";
 import AdminHome from "../pages/Dashboard/Admin/AdminHome";
 import AllBooking from "../pages/Dashboard/Admin/AllBooking";
+import AddCar from "../pages/Dashboard/Admin/AddCar";
+import ManageCars from "../pages/Dashboard/Admin/ManageCars";
 
 const AppRouter = createBrowserRouter([
   {
@@ -63,9 +65,8 @@ const AppRouter = createBrowserRouter([
       { path: "/dashboard/payment/sslCommerz", element: <SSLCommerz /> },
       { path: "/dashboard/admin-home", element: <AdminHome /> },
       { path: "/dashboard/all-booking", element: <AllBooking /> },
-     
-      
-    
+      { path: "/dashboard/add-cars", element: <AddCar /> },
+      { path: "/dashboard/manage-cars", element: <ManageCars /> },
     ],
   },
   { path: "/test", element: <Tes /> },

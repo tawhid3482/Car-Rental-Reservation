@@ -78,7 +78,7 @@ const Dashboard = () => {
               <NavLink to="/dashboard/all-booking" className={linkClass}>
                 <FaListAlt /> All Booking
               </NavLink>
-              <NavLink to="/dashboard/all-cars" className={linkClass}>
+              <NavLink to="/dashboard/add-cars" className={linkClass}>
                 <FaMoneyBill /> Add Cars
               </NavLink>
               <NavLink to="/dashboard/manage-cars" className={linkClass}>

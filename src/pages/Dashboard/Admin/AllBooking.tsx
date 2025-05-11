@@ -31,7 +31,6 @@ const BookingCard = () => {
               <div>
                 <h3 className="font-semibold text-gray-800">{user?.name}</h3>
                 <p className="text-sm text-gray-600">{user?.email}</p>
-                <p className="text-sm text-gray-600">{user?.phone}</p>
               </div>
             </div>
 

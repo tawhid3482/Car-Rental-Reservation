@@ -42,6 +42,13 @@ const authApi = baseApi.injectEndpoints({
         body: data,
       }),
     }),
+    deleteCar: builder.mutation({
+      query: (id:string) => ({
+        url: `cars/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["cars"],
+    }),
   }),
 });
 
@@ -49,6 +56,7 @@ export const {
   useAddCarsMutation,
   useGetAllCarsQuery,
   useUpdateCarMutation,
+  useDeleteCarMutation,
   useGetSingleCarQuery,
   useReturnCarMutation
 } = authApi;

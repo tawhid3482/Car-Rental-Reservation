@@ -11,6 +11,7 @@ const HomeForUser = () => {
   const { data } = useGetUserStatQuery(user?.id ?? "");
 
   const statsData = data?.data;
+  console.log("User Stats Data:", statsData);
 
   // Create array for mapping
   const info = useMemo(() => {
@@ -24,7 +25,7 @@ const HomeForUser = () => {
       },
       {
         title: "Total Spend",
-        value: `$${statsData.totalSpend}`,
+        value: `${(statsData.totalSpend).toFixed(2)}`,
         icon: <FaCreditCard className="text-3xl text-[#3DEEB7]" />,
       },
       {
@@ -81,7 +82,9 @@ const HomeForUser = () => {
             <div>{stat.icon}</div>
             <div>
               <h4 className="text-gray-500 text-sm">{stat.title}</h4>
-              <p className="text-2xl font-bold mt-1">{stat.value}</p>
+              <p className="text-2xl font-bold mt-1">
+               {stat.value}
+              </p>
             </div>
           </motion.div>
         ))}
