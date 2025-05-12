@@ -21,7 +21,7 @@ const Messaging = () => {
 
   const { data } = useGetAllUserQuery("");
   const allUsers = data?.data || [];
-  const users = allUsers.filter((user: TUser) => user?.role === "admin");
+  const users = allUsers.filter((user: TUser) => user?.role === "user");
 
   const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
   const [message, setMessage] = useState("");
