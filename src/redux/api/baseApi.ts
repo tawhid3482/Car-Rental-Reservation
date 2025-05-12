@@ -13,7 +13,7 @@ import toast from "react-hot-toast";
 import { logout, setUser } from "../features/auth/authSlice";
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: "https://car-rental-reservation-system-alpha.vercel.appapi",
+  baseUrl: "https://car-rental-reservation-system-alpha.vercel.app/api",
   credentials: "include",
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootState).auth?.token;
