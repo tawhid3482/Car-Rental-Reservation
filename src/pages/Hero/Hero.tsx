@@ -6,7 +6,7 @@ const Hero = () => {
   return (
     <div
       style={{
-        backgroundImage: `url('/src/assets/images/banner.png')`, // or use import + inline
+        backgroundImage: `url('https://media.licdn.com/dms/image/v2/C5612AQFL1Ycr19v1aA/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1651930668862?e=2147483647&v=beta&t=XF8YuvUncwxp4Xhn_lpuBmgekNPz_ToFPNv4vqKLV-8')`, // or use import + inline
       }}
       className="relative bg-cover bg-center h-screen w-full  bg-fixed"
     >
