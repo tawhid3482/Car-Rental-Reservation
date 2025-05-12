@@ -16,7 +16,6 @@ import MyBooking from "../pages/Dashboard/User/MyBooking";
 import PaymentHistory from "../pages/Dashboard/User/PaymentHistory";
 import Messaging from "../pages/Dashboard/User/Messaging";
 import AdminMessage from "../pages/Dashboard/Admin/AdminMessage";
-import Tes from "../pages/Dashboard/User/tes";
 import Payment from "../pages/Dashboard/User/Payment/Payment";
 import Paypal from "../pages/Dashboard/User/Payment/Paypal";
 import SSLCommerz from "../pages/Dashboard/User/Payment/SSLCommerz";
@@ -71,7 +70,6 @@ const AppRouter = createBrowserRouter([
       { path: "/dashboard/manage-cars/update/:id", element: <UpdateCar /> },
     ],
   },
-  { path: "/test", element: <Tes /> },
 ]);
 
 export default AppRouter;
