@@ -9,7 +9,7 @@ const CheckoutForm = () => {
 
   useEffect(() => {
     // Backend থেকে clientSecret আনুন
-    fetch("http://localhost:5000/create-payment-intent", {
+    fetch("https://car-rental-reservation-system-alpha.vercel.appcreate-payment-intent", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ amount: 5000 }), // amount in cents

@@ -13,7 +13,7 @@ import toast from "react-hot-toast";
 import { logout, setUser } from "../features/auth/authSlice";
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: "http://localhost:5000/api",
+  baseUrl: "https://car-rental-reservation-system-alpha.vercel.appapi",
   credentials: "include",
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootState).auth?.token;
@@ -36,10 +36,13 @@ const baseQueryWithRefreshToken: BaseQueryFn<
   }
   if (result?.error?.status === 401) {
     //* Send Refresh
-    const res = await fetch("http://localhost:5000", {
-      method: "POST",
-      credentials: "include",
-    });
+    const res = await fetch(
+      "https://car-rental-reservation-system-alpha.vercel.app",
+      {
+        method: "POST",
+        credentials: "include",
+      }
+    );
     const data = await res.json();
     if (data?.data?.accessToken) {
       const user = (api.getState() as RootState).auth.user;
@@ -54,13 +57,12 @@ const baseQueryWithRefreshToken: BaseQueryFn<
       api.dispatch(logout());
     }
   }
-  return result; 
+  return result;
 };
 
 export const baseApi = createApi({
   reducerPath: "baseApi",
   baseQuery: baseQueryWithRefreshToken,
-  tagTypes: ["users","cars","booking","message","payment",'admin'],
+  tagTypes: ["users", "cars", "booking", "message", "payment", "admin"],
   endpoints: () => ({}),
 });
-
