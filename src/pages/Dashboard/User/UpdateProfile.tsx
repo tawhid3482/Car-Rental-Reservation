@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import { selectCurrentUser } from "../../../redux/features/auth/authSlice";
@@ -44,7 +43,7 @@ const UpdateProfile = () => {
     e.preventDefault();
     console.log("Payload before submit:", formData); // ⬅️ এইটা দাও
     try {
-      const res = await updateUser({
+      await updateUser({
         email: user?.email,
         payload: formData,
       }).unwrap();
